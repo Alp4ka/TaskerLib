@@ -32,10 +32,10 @@ namespace Tasker
             }
             return ExpToRank[expStages[0]];
         }
-        public static int GenerateUID(IAssignable[] collection)
+        /*public static int GenerateUID(IAssignable[] collection)
         {
             return collection.Max(x => x.UID) + 1;
-        }
+        }*/
         public static string[] Ranks { get => ExpToRank.OrderBy(x => x.Key).Select(x => x.Value).ToArray(); }
 
     }

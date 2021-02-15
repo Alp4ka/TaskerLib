@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Tasker
 {
-    public class User: IAssignable
+    public class User
     {
-        private int _uid;
+        //private int _uid;
         private int _experience;
         public string Name { get; private set; }
         public string Surname { get; private set; }
         //public string Nickname {get; private set;}
         public string Rank { get=> Utils.GetRankByExp(_experience); }
         public string Fullname { get => $"{Name} {Surname}"; }
-        public int UID { get => _uid; set { _uid = value; } }
+        //public int UID { get => _uid; set { _uid = value; } }
         public bool SetName(string newName)
         {
             if(newName.Length < 2 || newName.Length > 30)
@@ -47,7 +47,6 @@ namespace Tasker
             }
             _experience = experience;
         }
-        
 
 
     }

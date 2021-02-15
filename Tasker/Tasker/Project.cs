@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Tasker
 {
-    class Project
+    public class Project
     {
+        public string Name { get; set; }
     }
 }

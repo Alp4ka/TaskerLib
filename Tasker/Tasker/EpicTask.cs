@@ -36,7 +36,7 @@ namespace Tasker
             {
                 throw new ArgumentException($"Task is already in list.");
             }
-            if(task is EpicTask)
+            if(task is EpicTask || task is Bug)
             {
                 throw new ArgumentException($"Unable to add task with type {task.GetType()}");
             }
