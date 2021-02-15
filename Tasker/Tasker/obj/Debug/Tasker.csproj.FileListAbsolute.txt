@@ -1,0 +1,2 @@
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\Tasker\obj\Debug\Tasker.csprojAssemblyReference.cache
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\Tasker\obj\Debug\Tasker.csproj.CoreCompileInputs.cache
