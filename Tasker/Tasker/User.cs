@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tasker
 {
@@ -12,6 +8,7 @@ namespace Tasker
         private int _experience;
         public string Name { get; private set; }
         public string Surname { get; private set; }
+        public int Experience { get; set; }
         //public string Nickname {get; private set;}
         public string Rank { get=> Utils.GetRankByExp(_experience); }
         public string Fullname { get => $"{Name} {Surname}"; }
@@ -27,7 +24,7 @@ namespace Tasker
         }
         public bool SetSurname(string newSurname)
         {
-            if (newSurname.Length < 3 || newSurname.Length > 40)
+            if (newSurname.Length < 2 || newSurname.Length > 40)
             {
                 return false;
             }
@@ -47,7 +44,10 @@ namespace Tasker
             }
             _experience = experience;
         }
-
+        public override string ToString()
+        {
+            return $"{Fullname}. Rank: {Rank} with {Experience} exp.";
+        }
 
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tasker
 {
@@ -14,18 +11,24 @@ namespace Tasker
             return _subTasks;
         }
         //TODO
-        public List<User> GetResponders()
+        new public void AddResponder(User user)
+        {
+        }
+        new public void RemoveResponder(User user)
+        {
+        }
+        new public List<User> GetResponders()
         {
             var result = new List<User>();
             foreach(var task in _subTasks)
             {
                 if(task is Task)
                 {
-                    result.Add((task as Task).Responders[0]);
+                    result.Add((task as Task).GetResponders()[0]);
                 }
                 if (task is StoryTask)
                 {
-                    result.AddRange((task as StoryTask).Responders);
+                    result.AddRange((task as StoryTask).GetResponders());
                 }
             }
             return result;
@@ -49,11 +52,10 @@ namespace Tasker
         public EpicTask(
             string name,
             string description,
-            User creator,
             DateTime start = default(DateTime),
             DateTime finish = default(DateTime),
             TaskState state = TaskState.Open,
-            List<IAssignable> tasks = null) : base(name, description, creator, start, finish, state)
+            List<IAssignable> tasks = null) : base(name, description, start, finish, state)
         {
             _subTasks = new List<IAssignable>();
             if(tasks != null)
@@ -63,6 +65,12 @@ namespace Tasker
                     AddTask(task);
                 }
             }
+        }
+        public override string ToString()
+        {
+            return $"EpicTask {Name}\n" +
+                $"Description: {Description}\n" +
+                $"Responders: {String.Join(" ", GetResponders())}";
         }
     }
 }

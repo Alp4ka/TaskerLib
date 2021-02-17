@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tasker
 {
@@ -11,12 +8,11 @@ namespace Tasker
         public StoryTask(
             string name,
             string description,
-            User creator,
             DateTime start = default(DateTime),
             DateTime finish = default(DateTime),
             TaskState state = TaskState.Open,
             List<IAssignable> tasks = null,
-            List<User> responders = null) : base(name, description, creator, start, finish, state)
+            List<User> responders = null) : base(name, description, start, finish, state)
         {
             if(responders != null)
             {
@@ -25,6 +21,12 @@ namespace Tasker
                     AddResponder(user);
                 }
             }
+        }
+        public override string ToString()
+        {
+            return $"StoryTask {Name}\n" +
+                $"Description: {Description}\n" +
+                $"Responders: {String.Join(" ", GetResponders())}";
         }
     }
 }

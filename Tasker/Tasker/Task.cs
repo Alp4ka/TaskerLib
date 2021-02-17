@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tasker
 {
@@ -19,20 +15,26 @@ namespace Tasker
                 Responders.Add(user);
             }
         }
+
         public Task(
             string name,
             string description,
-            User creator,
             DateTime start = default(DateTime),
             DateTime finish = default(DateTime),
             TaskState state = TaskState.Open,
-            User responder = null) :base(name, description, creator, start, finish, state)
+            User responder = null) :base(name, description, start, finish, state)
         {
             if(responder != null)
             {
                 Responders.Add(responder);
             }
             
+        }
+        public override string ToString()
+        {
+            return $"Task {Name}\n" +
+                $"Description: {Description}\n" +
+                $"Responders: {String.Join(" ", GetResponders())}";
         }
     }
 }
