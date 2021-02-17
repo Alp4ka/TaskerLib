@@ -49,6 +49,7 @@ namespace Tasker
         }
         public Project(string name, string description)
         {
+            _tasks = new List<IAssignable>();
             if (!SetName(name))
             {
                 throw new ArgumentException($"Wrong length of name!");

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasker", "Tasker\Tasker.csproj", "{D633C188-6334-4FC0-853E-821793E9323A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskerConsole", "TaskerConsole\TaskerConsole.csproj", "{580A7156-E8C2-4846-9AF8-ACB6E2ABF7A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskerConsole", "TaskerConsole\TaskerConsole.csproj", "{5913BB8D-7B60-44F2-BD79-37C4CFD36100}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{D633C188-6334-4FC0-853E-821793E9323A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D633C188-6334-4FC0-853E-821793E9323A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D633C188-6334-4FC0-853E-821793E9323A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{580A7156-E8C2-4846-9AF8-ACB6E2ABF7A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{580A7156-E8C2-4846-9AF8-ACB6E2ABF7A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{580A7156-E8C2-4846-9AF8-ACB6E2ABF7A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{580A7156-E8C2-4846-9AF8-ACB6E2ABF7A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5913BB8D-7B60-44F2-BD79-37C4CFD36100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5913BB8D-7B60-44F2-BD79-37C4CFD36100}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5913BB8D-7B60-44F2-BD79-37C4CFD36100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5913BB8D-7B60-44F2-BD79-37C4CFD36100}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
