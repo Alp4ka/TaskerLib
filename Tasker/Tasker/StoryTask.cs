@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Tasker
 {
-    class StoryTask:BaseTask
+    public class StoryTask:BaseTask
     {
         public StoryTask(
             string name,
@@ -22,11 +22,17 @@ namespace Tasker
                 }
             }
         }
+        public void AddResponders(List<User> users)
+        {
+            foreach(User user in users)
+            {
+                AddResponder(user);
+            }
+        }
         public override string ToString()
         {
-            return $"StoryTask {Name}\n" +
-                $"Description: {Description}\n" +
-                $"Responders: {String.Join(" ", GetResponders())}";
+            return $"[StoryTask] '{Name}'\n" + 
+                $"{base.ToString()}";
         }
     }
 }

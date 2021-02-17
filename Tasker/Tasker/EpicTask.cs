@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Tasker
 {
@@ -31,6 +32,7 @@ namespace Tasker
                     result.AddRange((task as StoryTask).GetResponders());
                 }
             }
+            result = result.Distinct().ToList();
             return result;
         }
         public void AddTask(IAssignable task)
@@ -44,6 +46,13 @@ namespace Tasker
                 throw new ArgumentException($"Unable to add task with type {task.GetType()}");
             }
             _subTasks.Add(task);
+        }
+        public void AddTasks(List<IAssignable> tasks)
+        {
+            foreach(IAssignable task in tasks)
+            {
+                AddTask(task);
+            }
         }
         public void RemoveTask(IAssignable task)
         {
@@ -68,9 +77,11 @@ namespace Tasker
         }
         public override string ToString()
         {
-            return $"EpicTask {Name}\n" +
+            return $"[EpicTask] '{Name}'\n" +
+                $"SubTasks: {String.Join(", ", GetTasks().Select(x => "[" + x.Name + "]"))}\n" +
                 $"Description: {Description}\n" +
-                $"Responders: {String.Join(" ", GetResponders())}";
+                $"State: {State}\n" +
+                $"Responders: \n{String.Join(", \n", GetResponders())}\n";
         }
     }
 }

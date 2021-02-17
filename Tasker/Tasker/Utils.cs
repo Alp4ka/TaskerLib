@@ -9,13 +9,13 @@ namespace Tasker
         private static Dictionary<int, string> ExpToRank = new Dictionary<int, string>
         {
 
-            {0, "Beginner"},
-            {1000, "Amateur"},
-            {2000, "Master"},
-            {3000, "Knight"},
-            {4000, "Lord"},
-            {5000, "Angel"},
-            {6000, "God"}
+            {1000, "Beginner"},
+            {2000, "Amateur"},
+            {3000, "Master"},
+            {4000, "Knight"},
+            {5000, "Lord"},
+            {6000, "Angel"},
+            {7000, "God"}
         };
         public static string GetRankByExp(int exp)
         {
@@ -27,7 +27,7 @@ namespace Tasker
                     return ExpToRank[curStage];
                 }
             }
-            return ExpToRank[expStages[0]];
+            return ExpToRank[expStages.Last()];
         }
         /*public static int GenerateUID(IAssignable[] collection)
         {

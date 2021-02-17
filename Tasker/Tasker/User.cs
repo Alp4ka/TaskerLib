@@ -5,12 +5,11 @@ namespace Tasker
     public class User
     {
         //private int _uid;
-        private int _experience;
         public string Name { get; private set; }
         public string Surname { get; private set; }
         public int Experience { get; set; }
         //public string Nickname {get; private set;}
-        public string Rank { get=> Utils.GetRankByExp(_experience); }
+        public string Rank { get=> Utils.GetRankByExp(Experience); }
         public string Fullname { get => $"{Name} {Surname}"; }
         //public int UID { get => _uid; set { _uid = value; } }
         public bool SetName(string newName)
@@ -42,11 +41,11 @@ namespace Tasker
             {
                 throw new ArgumentException($"Wrong length of surname!");
             }
-            _experience = experience;
+            Experience = experience;
         }
         public override string ToString()
         {
-            return $"{Fullname}. Rank: {Rank} with {Experience} exp.";
+            return $"[User] {Fullname}. Rank: {Rank} with {Experience} exp.";
         }
 
     }

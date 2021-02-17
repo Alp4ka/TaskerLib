@@ -4,3 +4,5 @@ C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\Tasker\bin\Debu
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\Tasker\bin\Debug\Tasker.pdb
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\Tasker\obj\Debug\Tasker.dll
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\Tasker\obj\Debug\Tasker.pdb
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\Tasker\obj\Debug\Tasker.Properties.Resources.resources
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\Tasker\obj\Debug\Tasker.csproj.GenerateResource.cache

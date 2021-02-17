@@ -31,9 +31,8 @@ namespace Tasker
         }
         public override string ToString()
         {
-            return $"Bug {Name}\n" +
-                $"Description: {Description}\n" +
-                $"Responders: {String.Join(" ", GetResponders())}";
+            return $"[Bug] '{Name}'\n" +
+                $"{base.ToString()}";
         }
     }
 }

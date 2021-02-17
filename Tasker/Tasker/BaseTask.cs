@@ -5,7 +5,15 @@ namespace Tasker
 {
     public class BaseTask : IAssignable
     {
-        private const int _expBuff = 1000;
+        private int _expBuff = 500;
+        public int ExpBuff
+        {
+            get => _expBuff;
+            set
+            {
+                _expBuff = value > 0 ? value : _expBuff;
+            }
+        }
         public void SetState(TaskState state)
         {
             if (state == State)
@@ -26,12 +34,29 @@ namespace Tasker
                     break;
                 case TaskState.Closed:
                     State = state;
-                    foreach (User user in Responders)
+                    List<User> responders = this.GetResponders();
+                    if(this is EpicTask)
+                    {
+                        responders = (this as EpicTask).GetResponders();
+                    }
+                    foreach (User user in responders)
                     {
                         EarnExperience(user);
                     }
                     break;
             }
+        }
+        public void Close()
+        {
+            SetState(TaskState.Closed);
+        }
+        public void Process()
+        {
+            SetState(TaskState.InProgress);
+        }
+        public void Open()
+        {
+            SetState(TaskState.Open);
         }
         public List<User> GetResponders()
         {
@@ -101,7 +126,7 @@ namespace Tasker
             {
                 throw new ArgumentException($"Wrong length of name!");
             }
-            if(!SetDescription(description))
+            if (!SetDescription(description))
             {
                 throw new ArgumentException($"Wrong length of description!");
             }
@@ -113,9 +138,9 @@ namespace Tasker
         }
         public override string ToString()
         {
-            return $"BaseTask {Name}\n" +
-                $"Description: {Description}\n" +
-                $"Responders: {String.Join(" ", GetResponders())}";
+            return $"Description: {Description}\n" +
+                                $"State: {State}\n" +
+                                $"Responders: \n{String.Join(", \n", GetResponders())}\n";
         }
     }
 }

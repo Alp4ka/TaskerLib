@@ -1,0 +1,10 @@
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskerConsole\bin\Debug\TaskerConsole.exe.config
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskerConsole\bin\Debug\TaskerConsole.exe
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskerConsole\bin\Debug\TaskerConsole.pdb
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskerConsole\bin\Debug\Tasker.dll
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskerConsole\bin\Debug\Tasker.pdb
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskerConsole\obj\Debug\TaskerConsole.csprojAssemblyReference.cache
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskerConsole\obj\Debug\TaskerConsole.csproj.CoreCompileInputs.cache
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskerConsole\obj\Debug\TaskerConsole.csproj.CopyComplete
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskerConsole\obj\Debug\TaskerConsole.exe
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskerConsole\obj\Debug\TaskerConsole.pdb
