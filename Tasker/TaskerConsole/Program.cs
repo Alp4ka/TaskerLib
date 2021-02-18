@@ -23,11 +23,26 @@ namespace TaskerConsole
             DBManager.InitializeDatabase();
             DBManager.ReadDataBase();
 
-
-            //Console.WriteLine(String.Join("\n", Users));
-            Project proj = new Project("project1", "project12334234234234", Tasks);
-            Projects.Add(proj);
-            Console.WriteLine(proj);
+            Engine.DrawIntro(new string[] { "Trello Killer", "v 1.0", " ", "Any <Key> to continue..." });
+            while (true)
+            {
+                var menu = Engine.GenerateIDsForMenuItems(new string[] { "my_projects", "users", "exit"}, new string[] {"My Projects", "Users Control", "Exit"});
+                switch (Engine.Menu(menu, "Main Menu"))
+                {
+                    case "my_projects":
+                        Engine.DrawWindow(new string[] { "grizha1" }, title: "PIZDEC1!");
+                        break;
+                    case "users":
+                        Engine.DrawWindow(new string[] { "grizha2" }, title: "PIZDEC2!");
+                        break;
+                    case "exit":
+                        Engine.DrawWindow(new string[] { "NATASHA" }, title: "LOH");
+                        break;
+                    case null:
+                        Engine.DrawWindow(new string[] { "null" }, title: "NULL");
+                        break;
+                }
+            }
             //_users.Clear();
             //_users.Add(new User("Pasha", "Durov", 100));
             //_users.Add(new User("Roma", "Gorkovets", 10));
