@@ -24,7 +24,10 @@ namespace TaskerConsole
             DBManager.ReadDataBase();
 
 
-            Console.WriteLine(String.Join("\n", Users));
+            //Console.WriteLine(String.Join("\n", Users));
+            Project proj = new Project("project1", "project12334234234234", Tasks);
+            Projects.Add(proj);
+            Console.WriteLine(proj);
             //_users.Clear();
             //_users.Add(new User("Pasha", "Durov", 100));
             //_users.Add(new User("Roma", "Gorkovets", 10));

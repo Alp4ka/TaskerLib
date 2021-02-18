@@ -34,6 +34,11 @@ namespace TaskerConsole
                 SQLiteConnection.CreateFile(_dbPath);
                 _connection = new SQLiteConnection(string.Format("Data Source={0};", _dbPath));
                 _connection.Open();
+                // Даже не пишите, что можно юзать ForeignKey'и. Я уже дед инсайд, просто сожгите эту ненужную мясную оболочку 
+                // и я полечу покорять астральное пространство своим говнокодом.
+                // Меня на этой планете уже ничего не держит.
+                // З.Ы. Пользуясь случаем, хочу передать привет всем, кто делает автосейв через сериализацию.
+                // Осуждаю и завидую. Завидую, оттого и осуждаю.*
                 SQLiteCommand command = new SQLiteCommand("CREATE TABLE Users (id INTEGER , Name TEXT, Surname TEXT, Experience INTEGER);" +
                                                           "CREATE TABLE Tasks (id INTEGER , Name TEXT, Description TEXT, Responders TEXT, State INTEGER);" +
                                                           "CREATE TABLE Bugs (id INTEGER , Name TEXT, Description TEXT, Responders TEXT, State INTEGER);" +
@@ -56,17 +61,41 @@ namespace TaskerConsole
             {
                 ReadUsers();
                 ReadListing();
-                //ReadProjects();
+                ReadProjects();
             }
         }
-        static void ReadListing()
+        private static void ReadProjects()
+        {
+            _connection.Open();
+            SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'Projects';", _connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            foreach (DbDataRecord record in reader)
+            {
+                int id = int.Parse(record["id"].ToString());
+                string name = record["Name"].ToString();
+                string description = record["Description"].ToString();
+                List<IAssignable> tasks = ParseTasks(record["Tasks"].ToString());
+                try
+                {
+                    Project temp = new Project(name, description, tasks: tasks);
+                    temp.ID = id;
+                    _projects.Add(temp);
+                }
+                catch
+                {
+
+                }
+            }
+            _connection.Close();
+        }
+        private static void ReadListing()
         {
             ReadTasks();
             ReadBugs();
             ReadStoryTasks();
             ReadEpicTasks();
         }
-        static void ReadTasks()
+        private static void ReadTasks()
         {
             _connection.Open();
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'Tasks';", _connection);
@@ -91,7 +120,7 @@ namespace TaskerConsole
             }
             _connection.Close();
         }
-        static List<User> ParseResponders(string input)
+        private static List<User> ParseResponders(string input)
         {
             int[] ids = input.Split().Select(x => int.Parse(x)).ToArray();
             var result = new List<User>();
@@ -105,21 +134,21 @@ namespace TaskerConsole
             }
             return result;
         }
-        static List<IAssignable> ParseTasks(string input)
+        private static List<IAssignable> ParseTasks(string input)
         {
             int[] ids = input.Split().Select(x => int.Parse(x)).ToArray();
             var result = new List<IAssignable>();
             foreach (int id in ids)
             {
                 var task = _tasks.Find(x => x.ID == id);
-                if (task != default(BaseTask) && !(task is EpicTask))
+                if (task != default(IAssignable))
                 {
                     result.Add(task);
                 }
             }
             return result;
         }
-        static void ReadUsers()
+        private static void ReadUsers()
         {
             _connection.Open();
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'Users';", _connection);
@@ -149,7 +178,7 @@ namespace TaskerConsole
             SaveTasks();
             SaveProjects();
         }
-        static void SaveUsers()
+        private static void SaveUsers()
         {
             SQLiteCommand command;
             _connection.Open();
@@ -166,18 +195,30 @@ namespace TaskerConsole
             _connection.Close();
         }
         //TODO
-        static void SaveProjects()
+        private static void SaveProjects()
         {
-
+            SQLiteCommand command;
+            _connection.Open();
+            command = new SQLiteCommand("DELETE FROM Projects; VACUUM;", _connection);
+            command.ExecuteNonQuery();
+            int cnt = 0;
+            foreach (Project project in _projects)
+            {
+                string value = $"({project.ID}, '{project.Name}', '{project.Description}', '{String.Join(" ", project.GetTasks().Select(x => x.ID))}')";
+                command = new SQLiteCommand($"INSERT INTO 'Projects' ('id', 'Name', 'Description', 'Tasks') VALUES {value};", _connection);
+                command.ExecuteNonQuery();
+                project.ID = cnt;
+                cnt++;
+            }
+            _connection.Close();
         }
-        static void SaveTasks()
+        private static void SaveTasks()
         {
             List<IAssignable> toSave = new List<IAssignable>();
             List<KeyValuePair<EpicTask, int>> epics = new List<KeyValuePair<EpicTask, int>>();
             int cnt = 0;
             _connection.Open();
-            //Что будет, если насрать в вакуум? ... В вакууме будет насрано. Заклинаю, SQL для быдла.
-            SQLiteCommand command = new SQLiteCommand("DELETE FROM Tasks; VACUUM;" +
+            SQLiteCommand command = new SQLiteCommand("DELETE FROM Tasks; VACUUM;" +             // Что будет, если насрать в вакуум? ... В вакууме будет насрано.
                                                       "DELETE FROM Bugs; VACUUM;" +
                                                       "DELETE FROM StoryTasks; VACUUM;" +
                                                       "DELETE FROM EpicTasks; VACUUM;", _connection);
@@ -209,7 +250,7 @@ namespace TaskerConsole
             }
 
         }
-        static void SaveEpicTask(EpicTask epicTask, int id)
+        private static void SaveEpicTask(EpicTask epicTask, int id)
         {
             SQLiteCommand command;
             _connection.Open();
@@ -219,7 +260,7 @@ namespace TaskerConsole
             _connection.Close();
             epicTask.ID = id;
         }
-        static void SaveBug(Bug bug, int id)
+        private static void SaveBug(Bug bug, int id)
         {
             SQLiteCommand command;
             _connection.Open();
@@ -229,7 +270,7 @@ namespace TaskerConsole
             _connection.Close();
             bug.ID = id;
         }
-        static void SaveTask(Task task, int id)
+        private static void SaveTask(Task task, int id)
         {
             SQLiteCommand command;
             _connection.Open();
@@ -239,7 +280,7 @@ namespace TaskerConsole
             _connection.Close();
             task.ID = id;
         }
-        static void SaveStoryTask(StoryTask storyTask, int id)
+        private static void SaveStoryTask(StoryTask storyTask, int id)
         {
             SQLiteCommand command;
             _connection.Open();
@@ -249,7 +290,7 @@ namespace TaskerConsole
             _connection.Close();
             storyTask.ID = id;
         }
-        static void ReadBugs()
+        private static void ReadBugs()
         {
             _connection.Open();
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'Bugs';", _connection);
@@ -274,7 +315,7 @@ namespace TaskerConsole
             }
             _connection.Close();
         }
-        static void ReadStoryTasks()
+        private static void ReadStoryTasks()
         {
             _connection.Open();
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'StoryTasks';", _connection);
@@ -299,7 +340,7 @@ namespace TaskerConsole
             }
             _connection.Close();
         }
-        static void ReadEpicTasks()
+        private static void ReadEpicTasks()
         {
             _connection.Open();
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'EpicTasks';", _connection);

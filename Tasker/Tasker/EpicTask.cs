@@ -23,14 +23,7 @@ namespace Tasker
             var result = new List<User>();
             foreach(var task in _subTasks)
             {
-                if(task is Task)
-                {
-                    result.Add((task as Task).GetResponders()[0]);
-                }
-                if (task is StoryTask)
-                {
-                    result.AddRange((task as StoryTask).GetResponders());
-                }
+                result.AddRange(task.GetResponders());
             }
             result = result.Distinct().ToList();
             return result;

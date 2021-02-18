@@ -6,6 +6,7 @@ namespace Tasker
 {
     public class Project
     {
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public double Percentage
@@ -13,7 +14,8 @@ namespace Tasker
             get
             {
                 List<IAssignable> temp = GetAllTasks();
-                return temp.Count(x => (x as BaseTask).State == BaseTask.TaskState.Open) / ((double)temp.Count);
+                Console.WriteLine(String.Join(" ", temp));
+                return 100 * (temp.Count(x => (x as BaseTask).State == BaseTask.TaskState.Closed) / ((double)temp.Count));
             }
         }
         private List<IAssignable> _tasks;
@@ -54,6 +56,7 @@ namespace Tasker
             {
                 result.AddRange(task.GetResponders());
             }
+            result = result.Distinct().ToList();
             return result;
         }
         public void RemoveTask(IAssignable task)
@@ -76,7 +79,7 @@ namespace Tasker
         }
         
             
-        public Project(string name, string description)
+        public Project(string name, string description, List <IAssignable> tasks = null)
         {
             _tasks = new List<IAssignable>();
             if (!SetName(name))
@@ -86,6 +89,13 @@ namespace Tasker
             if (!SetDescription(description))
             {
                 throw new ArgumentException($"Wrong length of description!");
+            }
+            if (tasks != null)
+            {
+                foreach (IAssignable task in tasks)
+                {
+                    AddTask(task);
+                }
             }
         }
         public List<IAssignable> GetTasksByState(BaseTask.TaskState state)
@@ -107,7 +117,7 @@ namespace Tasker
             return $"[Project] '{Name}':\n" +
                 $"Description: {Description}\n" +
                 $"Responders: {String.Join(", \n", GetResponders())}\n"+
-                $"Percentage: {Percentage:2F}%";
+                $"Percentage: {Percentage:F2}%";
         }
     }
 }
