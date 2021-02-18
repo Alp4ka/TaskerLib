@@ -35,64 +35,12 @@ namespace TaskerConsole
                         UsersControlDialog();
                         break;
                     case "exit":
-                        CancelKeyPress(null , null);
+                        CancelKeyPress(null, null);
                         return;
                     case null:
                         break;
                 }
             }
-            //_users.Clear();
-            //_users.Add(new User("Pasha", "Durov", 100));
-            //_users.Add(new User("Roma", "Gorkovets", 10));
-            //Task task1 = new Task("task1", "pizdec", state: BaseTask.TaskState.Closed, responder: _users[1]);
-            //StoryTask stask1 = new StoryTask("task1", "pizdec", state: BaseTask.TaskState.InProgress, _users);
-            //EpicTask etask = new EpicTask("epic", "pizdec123", state: BaseTask.TaskState.InProgress, new List<IAssignable>(new IAssignable[] { task1 }));
-            //_tasks.Add(etask);
-            //_tasks.Add(task1);
-            //_tasks.Add(stask1);
-
-            #region
-            /*string[] array = new string[] {""};
-            Array.Resize(ref array, 100);
-            array = array.Select((x, i) => i.ToString()).ToArray();
-            var menu = Engine.GenerateIDsForMenuItems(array, array);
-            switch (Engine.ScrollableMenu(menu, 10,  "Ya ebal tvou telku u", additionalInfo: new string[] {"1", "2", "3"}))
-            {
-                case "start":
-                    Engine.DrawWindow(new string[] { "grizha1" }, title: "PIZDEC1!");
-                    break;
-                case "instruction":
-                    Engine.DrawWindow(new string[] { "grizha2" }, title: "PIZDEC2!");
-                    break;
-                case "exit":
-                    Engine.DrawWindow(new string[] { "NATASHA" }, title: "LOH");
-                    break;
-                case null:
-                    Engine.DrawWindow(new string[] { "null" }, title: "NULL");
-                    break;
-            }
-            User user1 = new User("Roman", "Gorkovets");
-            User user2 = new User("Bogdan", "Kulikov");
-            Project project = new Project("Project1", "The project that helps other to lose their faith in the future ane etc.");
-            Task task = new Task("Buy a bread", "Carefully", DateTime.Now, DateTime.Now.AddDays(1));
-            Bug bug1 = new Bug("fix", "lol wat shoult i type", responder: user1);
-            StoryTask stask = new StoryTask("stask", "fuck");
-            EpicTask etask = new EpicTask("Epic task", "ya zaebalsya");
-            etask.AddTask(task);
-            etask.AddTask(stask);
-            task.AddResponder(user1);
-            stask.AddResponder(user1);
-            stask.AddResponder(user2);
-            //Console.WriteLine(String.Join(" ", etask.GetResponders()));
-            //etask.AddTask(ta);
-            //stask.AddResponder(user1);
-            //stask.AddResponder(user2);
-            Console.WriteLine(etask);
-            etask.Close();
-            Console.WriteLine(etask);
-            Console.ReadKey();
-            */
-            #endregion
         }
 
         static void CancelKeyPress(object sender, ConsoleCancelEventArgs e)
@@ -161,7 +109,6 @@ namespace TaskerConsole
                 choice.Add("<New User>");
                 ids.AddRange(Users.Select(x => x.ID.ToString()).ToArray());
                 choice.AddRange(Users.Select(x => $"{x.Fullname} Rank: {x.Rank} with {x.Experience} exp.").ToArray());
-                Console.WriteLine(String.Join(" ", ids));
                 var menu = Engine.GenerateIDsForMenuItems(ids.ToArray(), choice.ToArray());
                 string result = Engine.ScrollableMenu(menu, 10, title: "Users Control");
                 switch (result)
@@ -172,8 +119,33 @@ namespace TaskerConsole
                     case null:
                         return;
                     default:
-                        return;
+                        UserPageDialog(Users.Where(x => x.ID == int.Parse(result)).First());
+                        break;
                 }
+            }
+        }
+        static void UserPageDialog(User user)
+        {
+            List<string> ids = new List<string>();
+            List<string> choice = new List<string>();
+            ids.Add("delete_current");
+            choice.Add("<Delete>");
+            var menu = Engine.GenerateIDsForMenuItems(ids.ToArray(), choice.ToArray());
+            string result = Engine.Menu(menu, title: $"Users {user}");
+            switch (result)
+            {
+                case "delete_current":
+                    foreach (IAssignable task in Tasks)
+                    {
+                        task.RemoveResponder(user);
+                    }
+                    Users.Remove(user);
+                    DBManager.SaveChanges();
+                    return;
+                case null:
+                    return;
+                default:
+                    return;
             }
         }
         static void UserCreation()
@@ -261,8 +233,8 @@ namespace TaskerConsole
                 }
             }
         }
-       static void ProjectWindow(Project project)
-       {
+        static void ProjectWindow(Project project)
+        {
             while (true)
             {
                 var tasks = project.GetTasks(BaseTask.TaskState.Open);
@@ -284,7 +256,7 @@ namespace TaskerConsole
                         TaskCreationDialog(project);
                         break;
                     case "delete_current":
-                        foreach(IAssignable task in project.GetAllTasks())
+                        foreach (IAssignable task in project.GetAllTasks())
                         {
                             Tasks.Remove(task);
                         }
@@ -302,7 +274,7 @@ namespace TaskerConsole
                         break;
                 }
             }
-       }
+        }
         static void TaskCreationDialog(Project parent)
         {
 
