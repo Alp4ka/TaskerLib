@@ -108,7 +108,17 @@ namespace TaskerConsole
                 int id = int.Parse(record["id"].ToString());
                 string name = record["Name"].ToString();
                 string description = record["Description"].ToString();
-                User responder = ParseResponders(record["Responders"].ToString())[0];
+
+                User responder;
+                List<User> tempList = ParseResponders(record["Responders"].ToString());
+                if (tempList.Count < 1)
+                {
+                    responder = null;
+                }
+                else
+                {
+                    responder = tempList[0];
+                }
                 var state = (BaseTask.TaskState)int.Parse(record["State"].ToString());
                 try
                 {
