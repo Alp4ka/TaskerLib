@@ -57,6 +57,9 @@ namespace TaskerConsole
         public static string Path {get => _dbPath;}
         public static void ReadDataBase()
         {
+            //_users = new List<User>();
+            //_tasks = new List<IAssignable>();
+            //_projects = new List<Project>();
             if (File.Exists(_dbPath))
             {
                 ReadUsers();
@@ -122,6 +125,10 @@ namespace TaskerConsole
         }
         private static List<User> ParseResponders(string input)
         {
+            if (input is null || String.IsNullOrEmpty(input) || String.IsNullOrWhiteSpace(input) || input == "NULL")
+            {
+                return new List<User>();
+            }
             int[] ids = input.Split().Select(x => int.Parse(x)).ToArray();
             var result = new List<User>();
             foreach (int id in ids)
@@ -136,6 +143,10 @@ namespace TaskerConsole
         }
         private static List<IAssignable> ParseTasks(string input)
         {
+            if(input is null || String.IsNullOrEmpty(input)|| String.IsNullOrWhiteSpace(input) || input == "NULL")
+            {
+                return new List<IAssignable>();
+            }
             int[] ids = input.Split().Select(x => int.Parse(x)).ToArray();
             var result = new List<IAssignable>();
             foreach (int id in ids)
@@ -172,6 +183,28 @@ namespace TaskerConsole
             }
             _connection.Close();
         }
+        public static void ReloadDB()
+        {
+            Connection.Close();
+            SaveChanges();
+            //InitializeDatabase();
+            ReadDataBase();
+        }
+        public static void LoadProject(Project project)
+        {
+            _projects.Add(project);
+            DBManager.ReloadDB();
+        }
+        public static void LoadTask(IAssignable task)
+        {
+            _tasks.Add(task);
+            DBManager.ReloadDB();
+        }
+        public static void LoadUser(User user)
+        {
+            _users.Add(user);
+            DBManager.ReloadDB();
+        }
         public static void SaveChanges()
         {
             SaveUsers();
@@ -204,7 +237,7 @@ namespace TaskerConsole
             int cnt = 0;
             foreach (Project project in _projects)
             {
-                string value = $"({project.ID}, '{project.Name}', '{project.Description}', '{String.Join(" ", project.GetTasks().Select(x => x.ID))}')";
+                string value = $"({cnt}, '{project.Name}', '{project.Description}', '{String.Join(" ", project.GetTasks().Select(x => x.ID))}')";
                 command = new SQLiteCommand($"INSERT INTO 'Projects' ('id', 'Name', 'Description', 'Tasks') VALUES {value};", _connection);
                 command.ExecuteNonQuery();
                 project.ID = cnt;

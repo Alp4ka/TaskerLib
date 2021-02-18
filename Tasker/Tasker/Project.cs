@@ -14,6 +14,10 @@ namespace Tasker
             get
             {
                 List<IAssignable> temp = GetAllTasks();
+                if(temp.Count == 0)
+                {
+                    return 0;
+                }
                 Console.WriteLine(String.Join(" ", temp));
                 return 100 * (temp.Count(x => (x as BaseTask).State == BaseTask.TaskState.Closed) / ((double)temp.Count));
             }
@@ -28,9 +32,21 @@ namespace Tasker
             }
 
         }
-        public List<IAssignable> GetTasks()
+        public List<IAssignable> GetTasks(BaseTask.TaskState? state=null)
         {
-            return _tasks;
+            if(state == null)
+            {
+                return _tasks;
+            }
+            List<IAssignable> assignables = new List<IAssignable>();
+            foreach (IAssignable ia in _tasks)
+            {
+                if ((ia as BaseTask).State == state)
+                {
+                    assignables.Add(ia);
+                }
+            }
+            return assignables;
         }
         public List<IAssignable> GetAllTasks()
         {
@@ -65,11 +81,19 @@ namespace Tasker
         }
         public bool SetName(string newName)
         {
+            if (CheckName(newName))
+            {
+                Name = newName;
+                return true;
+            }
+            return true;
+        }
+        public static bool CheckName(string newName)
+        {
             if (newName.Length < 2 || newName.Length > 30)
             {
                 return false;
             }
-            Name = newName;
             return true;
         }
         public bool SetDescription(string newDescription)
@@ -97,18 +121,6 @@ namespace Tasker
                     AddTask(task);
                 }
             }
-        }
-        public List<IAssignable> GetTasksByState(BaseTask.TaskState state)
-        {
-            List<IAssignable> assignables = new List<IAssignable>();
-            foreach(IAssignable ia in _tasks)
-            {
-                if((ia as BaseTask).State == state)
-                {
-                    assignables.Add(ia);
-                }
-            }
-            return assignables;
         }
         public override string ToString()
         {

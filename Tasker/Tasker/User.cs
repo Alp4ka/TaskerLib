@@ -30,7 +30,22 @@ namespace Tasker
             Surname = char.ToUpper(newSurname[0]) + newSurname.Substring(1);
             return true;
         }
-        
+        public static bool CheckName(string name)
+        {
+            if (name.Length < 2 || name.Length > 30)
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool CheckSurname(string name)
+        {
+            if (name.Length < 2 || name.Length > 40)
+            {
+                return false;
+            }
+            return true;
+        }
         public User(string name, string surname, int experience = 0)
         {
             if (!SetName(name))
