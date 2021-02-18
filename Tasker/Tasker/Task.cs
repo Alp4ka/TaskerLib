@@ -19,10 +19,10 @@ namespace Tasker
         public Task(
             string name,
             string description,
-            DateTime start = default(DateTime),
-            DateTime finish = default(DateTime),
+            /*DateTime start = default(DateTime),
+            DateTime finish = default(DateTime),*/
             TaskState state = TaskState.Open,
-            User responder = null) :base(name, description, start, finish, state)
+            User responder = null) :base(name, description, /*start, finish,*/ state)
         {
             if(responder != null)
             {

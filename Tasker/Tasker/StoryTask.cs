@@ -8,11 +8,11 @@ namespace Tasker
         public StoryTask(
             string name,
             string description,
-            DateTime start = default(DateTime),
-            DateTime finish = default(DateTime),
+            /*DateTime start = default(DateTime),
+            DateTime finish = default(DateTime),*/
             TaskState state = TaskState.Open,
             List<IAssignable> tasks = null,
-            List<User> responders = null) : base(name, description, start, finish, state)
+            List<User> responders = null) : base(name, description, /*start, finish,*/ state)
         {
             if(responders != null)
             {

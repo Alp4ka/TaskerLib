@@ -91,9 +91,9 @@ namespace Tasker
         }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime CreationDate { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime DeadlineDate { get; set; }
+        //public DateTime CreationDate { get; set; }
+        //public DateTime StartTime { get; set; }
+        //public DateTime DeadlineDate { get; set; }
         //public User Creator { get; set; }
         //public int UID { get => _uid;}
         public TaskState State { get; set; }
@@ -120,7 +120,7 @@ namespace Tasker
             Creator = newCreator;
             return true;
         }*/
-        public BaseTask(string name, string description, DateTime start = default(DateTime), DateTime finish = default(DateTime), TaskState state = TaskState.Open)
+        public BaseTask(string name, string description, /*DateTime start = default(DateTime), DateTime finish = default(DateTime),*/ TaskState state = TaskState.Open)
         {
             if (!SetName(name))
             {
@@ -131,9 +131,9 @@ namespace Tasker
                 throw new ArgumentException($"Wrong length of description!");
             }
             State = state;
-            CreationDate = DateTime.Now;
-            StartTime = start;
-            DeadlineDate = finish;
+            //CreationDate = DateTime.Now;
+            //StartTime = start;
+            //DeadlineDate = finish;
             Responders = new List<User>();
         }
         public override string ToString()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Tasker
 {
@@ -7,11 +8,16 @@ namespace Tasker
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        private List<IAssignable> _tasks;
-        public List<IAssignable> GetAllTasks()
+        public double Percentage
         {
-            return _tasks;
+            get
+            {
+                List<IAssignable> temp = GetAllTasks();
+                return temp.Count(x => (x as BaseTask).State == BaseTask.TaskState.Open) / ((double)temp.Count);
+            }
         }
+        private List<IAssignable> _tasks;
+        
         public void AddTask(IAssignable task)
         {
             if (!_tasks.Contains(task))
@@ -19,6 +25,27 @@ namespace Tasker
                 _tasks.Add(task);
             }
 
+        }
+        public List<IAssignable> GetTasks()
+        {
+            return _tasks;
+        }
+        public List<IAssignable> GetAllTasks()
+        {
+            List<IAssignable> result = new List<IAssignable>();
+            foreach(IAssignable task in _tasks)
+            {
+                if(task is EpicTask)
+                {
+                    result.Add(task);
+                    result.AddRange((task as EpicTask).GetTasks());
+                }
+                else
+                {
+                    result.Add(task);
+                }
+            }
+            return _tasks;
         }
         public List<User> GetResponders()
         {
@@ -47,6 +74,8 @@ namespace Tasker
             Description = newDescription;
             return true;
         }
+        
+            
         public Project(string name, string description)
         {
             _tasks = new List<IAssignable>();
@@ -77,7 +106,8 @@ namespace Tasker
                 $"Description: {string.Format("{0,25}", Description)}...";*/
             return $"[Project] '{Name}':\n" +
                 $"Description: {Description}\n" +
-                $"Responders: {String.Join(", \n", GetResponders())}";
+                $"Responders: {String.Join(", \n", GetResponders())}\n"+
+                $"Percentage: {Percentage:2F}%";
         }
     }
 }

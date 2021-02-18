@@ -61,10 +61,10 @@ namespace Tasker
         public EpicTask(
             string name,
             string description,
-            DateTime start = default(DateTime),
-            DateTime finish = default(DateTime),
+            /*DateTime start = default(DateTime),
+            DateTime finish = default(DateTime),*/
             TaskState state = TaskState.Open,
-            List<IAssignable> tasks = null) : base(name, description, start, finish, state)
+            List<IAssignable> tasks = null) : base(name, description, /*start, finish,*/ state)
         {
             _subTasks = new List<IAssignable>();
             if(tasks != null)
