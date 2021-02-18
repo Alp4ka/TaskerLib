@@ -5,6 +5,7 @@ namespace Tasker
 {
     public class BaseTask : IAssignable
     {
+        public int ID { get; set; }
         private int _expBuff = 500;
         public int ExpBuff
         {

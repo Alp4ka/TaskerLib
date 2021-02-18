@@ -4,7 +4,7 @@ namespace Tasker
 {
     public class User
     {
-        public int ID = -1;
+        public int ID { get; set; }
         public string Name { get; private set; }
         public string Surname { get; private set; }
         public int Experience { get; set; }

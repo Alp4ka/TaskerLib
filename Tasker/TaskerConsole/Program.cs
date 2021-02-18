@@ -12,40 +12,29 @@ namespace TaskerConsole
 {
     class Program
     {
-        private static readonly string _dbPath = @".\db.db";
-        private static SQLiteConnection _connection;
-        private static List<User> _users = new List<User>();
-        private static List<Project> _projects = new List<Project>();
+        public static List<User> Users = DBManager._users;
+        public static List<Project> Projects = DBManager._projects;
+        public static List<IAssignable> Tasks = DBManager._tasks;
+
         static void Main(string[] args)
         {
             Console.CancelKeyPress += CancelKeyPress;
-            InitializeDatabase();
-            ReadDataBase();
-            Console.WriteLine(String.Join("\n", _users));
-            _users.Clear();
-            _users.Add(new User("Pasha", "Durov", 100));
-            _users.Add(new User("Roma", "Gorkovets", 10));
-            //User user1 = new User("Roman", "Gorkovets");
-            //User user2 = new User("Bogdan", "Kulikov", 1100);
-            //_users = new List<User>(new User[] { user1, user2 });
-            /*Console.WriteLine(command.ExecuteNonQuery());
-            command = new SQLiteCommand("SELECT * FROM 'Users';", connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            foreach (DbDataRecord record in reader)
-            {
-                int id = int.Parse(record["id"].ToString());
-                string Name = record["Name"].ToString();
-                string Surname = record["Surname"].ToString();
-                int Experience = int.Parse(record["Experience"].ToString());
-                User copy = new User(Name, Surname, Experience);
-                Console.WriteLine(copy);
-            }
-
-            connection.Close();
-            */
+            DBManager.SetPath(@".\db.db");
+            DBManager.InitializeDatabase();
+            DBManager.ReadDataBase();
 
 
-
+            Console.WriteLine(String.Join("\n", Users));
+            //_users.Clear();
+            //_users.Add(new User("Pasha", "Durov", 100));
+            //_users.Add(new User("Roma", "Gorkovets", 10));
+            //Task task1 = new Task("task1", "pizdec", state: BaseTask.TaskState.Closed, responder: _users[1]);
+            //StoryTask stask1 = new StoryTask("task1", "pizdec", state: BaseTask.TaskState.InProgress, _users);
+            //EpicTask etask = new EpicTask("epic", "pizdec123", state: BaseTask.TaskState.InProgress, new List<IAssignable>(new IAssignable[] { task1 }));
+            //_tasks.Add(etask);
+            //_tasks.Add(task1);
+            //_tasks.Add(stask1);
+           
             Console.ReadKey();
             #region
             /*string[] array = new string[] {""};
@@ -90,90 +79,13 @@ namespace TaskerConsole
             */
             #endregion
         }
-        static void InitializeDatabase()
-        {
-            
-            if (!File.Exists(_dbPath))
-            {
-                SQLiteConnection.CreateFile(_dbPath);
-                _connection = new SQLiteConnection(string.Format("Data Source={0};", _dbPath));
-                _connection.Open();
-                SQLiteCommand command = new SQLiteCommand("CREATE TABLE Users (id INTEGER , Name TEXT, Surname TEXT, Experience INTEGER);" +
-                                                          "CREATE TABLE Tasks (id INTEGER , Name TEXT, Description TEXT, Responders TEXT, State INTEGER);" +
-                                                          "CREATE TABLE Bugs (id INTEGER , Name TEXT, Description TEXT, Responders TEXT, State INTEGER);" +
-                                                          "CREATE TABLE StoryTasks (id INTEGER , Name TEXT, Description TEXT, Responders TEXT, State INTEGER);" +
-                                                          "CREATE TABLE EpicTasks (id INTEGER , Name TEXT, Description TEXT, Tasks TEXT, State INTEGER);" +
-                                                          "CREATE TABLE Projects (id INTEGER , Name TEXT, Description TEXT, Tasks TEXT);", _connection);
-                command.ExecuteNonQuery();
-                _connection.Close();
-            }
-            else
-            {
-                _connection = new SQLiteConnection(string.Format("Data Source={0};", _dbPath));
-                _connection.Close();
-            }
-        }
-        static void ReadDataBase()
-        {
-            if (File.Exists(_dbPath))
-            {
-                ReadUsers();
-            }
-        }
-        static void ReadUsers()
-        {
-            _connection.Open();
-            SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'Users';", _connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            foreach (DbDataRecord record in reader)
-            {
-                int id = int.Parse(record["id"].ToString());
-                string Name = record["Name"].ToString();
-                string Surname = record["Surname"].ToString();
-                int Experience = int.Parse(record["Experience"].ToString());
-                try
-                {
-                    User temp = new User(Name, Surname, Experience);
-                    _users.Add(temp);
-                }
-                catch
-                {
-
-                }
-            }
-            _connection.Close();
-        }
+    
         static void CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            _connection.Close();
-            SaveChanges();
+            DBManager.Connection.Close();
+            DBManager.SaveChanges();
             Environment.Exit(1);
         }
-        static void SaveChanges()
-        {
-            SaveUsers();
-            SaveTasks();
-            SaveProjects();
-            
-        }
-        static void SaveUsers()
-        {
-            SQLiteCommand command;
-            _connection.Open();
-            command = new SQLiteCommand("DELETE FROM Users; VACUUM;", _connection);
-            command.ExecuteNonQuery();
-            int cnt = 0;
-            foreach (User user in _users)
-            {
-                command = new SQLiteCommand($"INSERT INTO 'Users' ('id', 'Name', 'Surname', 'Experience') VALUES ({cnt}, '{user.Name}', '{user.Surname}', '{user.Experience}');", _connection);
-                command.ExecuteNonQuery();
-                cnt++;
-            }
-            _connection.Close();
-        }
-        static void SaveProjects()
-        {
-
-        }
+       
     }
 }
