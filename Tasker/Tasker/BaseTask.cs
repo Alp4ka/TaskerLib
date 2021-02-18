@@ -24,11 +24,14 @@ namespace Tasker
             switch (state)
             {
                 case TaskState.Open:
-                    State = state;
-                    /*foreach(User user in Responders)
+                    if(State == TaskState.Closed)
                     {
-                        RemoveExperience(user);
-                    }*/
+                        foreach (User user in Responders)
+                        {
+                            RemoveExperience(user);
+                        }
+                    }
+                    State = state;
                     break;
                 case TaskState.InProgress:
                     State = state;
@@ -63,11 +66,11 @@ namespace Tasker
         {
             return Responders;
         }
-        public void EarnExperience(User user)
+        private void EarnExperience(User user)
         {
             user.Experience += _expBuff;
         }
-        public void RemoveExperience(User user)
+        private void RemoveExperience(User user)
         {
             user.Experience -= _expBuff;
         }
@@ -107,20 +110,46 @@ namespace Tasker
             Name = newName;
             return true;
         }
+        public string Type
+        {
+            get
+            {
+                if(this is EpicTask)
+                {
+                    return "[EpicTask]";
+                }
+                else if(this is Bug)
+                {
+                    return "[Bug]";
+                }
+                else if (this is Task)
+                {
+                    return "[Task]";
+                }
+                else if (this is StoryTask)
+                {
+                    return "[StoryTask]";
+                }
+                else
+                {
+                    return "[BaseTask]";
+                }
+
+            }
+        }
+        public static bool CheckName(string name)
+        {
+            if (name.Length < 2 || name.Length > 30)
+            {
+                return false;
+            }
+            return true;
+        }
         public bool SetDescription(string newDescription)
         {
             Description = newDescription;
             return true;
         }
-        /*public bool SetCreator(User newCreator)
-        {
-            if(newCreator is null)
-            {
-                return false;
-            }
-            Creator = newCreator;
-            return true;
-        }*/
         public BaseTask(string name, string description, /*DateTime start = default(DateTime), DateTime finish = default(DateTime),*/ TaskState state = TaskState.Open)
         {
             if (!SetName(name))

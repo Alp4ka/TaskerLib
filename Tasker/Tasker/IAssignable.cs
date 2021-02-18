@@ -8,6 +8,7 @@ namespace Tasker
         string Name { get; set; }
         string Description { get; set; }
         int ID { get; set; }
+        string Type { get; }
         //DateTime CreationDate { get; set; }
         //DateTime StartTime { get; set; }
         //DateTime DeadlineDate { get; set; }

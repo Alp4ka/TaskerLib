@@ -22,10 +22,10 @@ namespace TaskerConsole
             DBManager.InitializeDatabase();
             DBManager.ReadDataBase();
 
-            Engine.DrawIntro(new string[] { "Trello Killer", "v 1.0", " ", "Any <Key> to continue..." });
+            Engine.DrawIntro(new string[] { "Trello Killer", "v 1.0", " ", "To move back use <ESC>","To use autosave, use button <Exit> instead of standart button.","Any <Key> to continue..." });
             while (true)
             {
-                var menu = Engine.GenerateIDsForMenuItems(new string[] { "my_projects", "users", "exit" }, new string[] { "My Projects", "Users Control", "Exit" });
+                var menu = Engine.GenerateIDsForMenuItems(new string[] { "my_projects", "users", "exit" }, new string[] { "My Projects", "Users", "Exit" });
                 switch (Engine.Menu(menu, "Main Menu:"))
                 {
                     case "my_projects":
@@ -108,9 +108,9 @@ namespace TaskerConsole
                 ids.Add("create_new");
                 choice.Add("<New User>");
                 ids.AddRange(Users.Select(x => x.ID.ToString()).ToArray());
-                choice.AddRange(Users.Select(x => $"{x.Fullname} Rank: {x.Rank} with {x.Experience} exp.").ToArray());
+                choice.AddRange(Users.Select(x => $"{x.Type} {x.Fullname} Rank: {x.Rank} with {x.Experience} exp.").ToArray());
                 var menu = Engine.GenerateIDsForMenuItems(ids.ToArray(), choice.ToArray());
-                string result = Engine.ScrollableMenu(menu, 10, title: "Users Control");
+                string result = Engine.ScrollableMenu(menu, 10, title: "Users");
                 switch (result)
                 {
                     case "create_new":
@@ -213,7 +213,7 @@ namespace TaskerConsole
                 ids.Add("create_new");
                 choice.Add("<Create New>");
                 ids.AddRange(Projects.Select(x => x.ID.ToString()).ToArray());
-                choice.AddRange(Projects.Select(x => x.Name + " ID:" + x.ID.ToString()).ToArray());
+                choice.AddRange(Projects.Select(x => x.Type + " " + x.Name + " ID:" + x.ID.ToString()).ToArray());
                 var menu = Engine.GenerateIDsForMenuItems(ids.ToArray(), choice.ToArray());
                 string dialogResult = Engine.Menu(menu, "Projects:");
                 switch (dialogResult)
@@ -243,17 +243,17 @@ namespace TaskerConsole
                 List<string> ids = new List<string>();
                 List<string> choice = new List<string>();
                 ids.Add("create_new");
-                ids.Add("delete_current");
                 choice.Add("<New Task>");
-                choice.Add("<Delete>");
                 ids.AddRange(tasks.Select(x => x.ToString()).ToArray());
-                choice.AddRange(tasks.Select(x => x.Name + $" ID: {x.ID}. Status: {(x as BaseTask).State}").ToArray());
+                choice.AddRange(tasks.Select(x => x.Type+ " " + x.Name + $" ID: {x.ID}. Status: {(x as BaseTask).State}").ToArray());
+                ids.Add("delete_current");
+                choice.Add("<Delete>");
                 var menu = Engine.GenerateIDsForMenuItems(ids.ToArray(), choice.ToArray());
                 string result = Engine.ScrollableMenu(menu, 10, title: project.ToString());
                 switch (result)
                 {
                     case "create_new":
-                        TaskCreationDialog(project);
+                        CreateTask(project);
                         break;
                     case "delete_current":
                         foreach (IAssignable task in project.GetAllTasks())
@@ -261,7 +261,7 @@ namespace TaskerConsole
                             Tasks.Remove(task);
                         }
                         Projects.Remove(project);
-                        DBManager.ReloadDB();
+                        DBManager.SaveChanges();
                         return;
                     case null:
                         return;
@@ -275,11 +275,107 @@ namespace TaskerConsole
                 }
             }
         }
-        static void TaskCreationDialog(Project parent)
+        static void CreateTask(Project parent)
         {
-
+            string name, description;
+            //BaseTask.TaskState state;
+            name = SetTaskNameDialog();
+            description = SetTaskDescriptionDialog();
+            IAssignable task = SetTypeDialog(name, description);
+            Tasks.Add(task);
+            parent.AddTask(task);
+            DBManager.SaveChanges();
+            //state = SetStateDialog(task);
         }
-        static void TaskCreationDialog(EpicTask parent)
+        static BaseTask.TaskState SetStateDialog(IAssignable task)
+        {
+            while (true)
+            {
+                var menu = Engine.GenerateIDsForMenuItems(new string[] { "open", "in_progress", "closed"}, new string[] { "Open", "In Progress", "Closed"});
+                string result = Engine.Menu(menu, title: $"{task.Name} Status Change");
+                switch (result)
+                {
+                    case "open":
+                        (task as BaseTask).SetState(BaseTask.TaskState.Open);
+                        return (task as BaseTask).State;
+                    case "in_progress":
+                        (task as BaseTask).SetState(BaseTask.TaskState.InProgress);
+                        return (task as BaseTask).State;
+                    case null:
+                        break;
+                    case "closed":
+                        (task as BaseTask).SetState(BaseTask.TaskState.Closed);
+                        return (task as BaseTask).State;
+                    default:
+                        break;
+                }
+            }
+        }
+        static IAssignable SetTypeDialog(string name, string description)
+        {
+            while (true)
+            {
+                var menu = Engine.GenerateIDsForMenuItems(new string[] { "task", "bug", "epic", "story"}, new string[] { "Task", "Bug", "Epic Task", "Story Task"});
+                string result = Engine.Menu(menu, title: $"Type selector");
+                switch (result)
+                {
+                    case "task":
+                        return new Task(name, description);
+                    case "bug":
+                        return new Bug(name, description);
+                    case null:
+                        break;
+                    case "epic":
+                        return new EpicTask(name, description);
+                    case "story":
+                        return new StoryTask(name, description);
+                    default:
+                        break;
+                }
+            }
+        }
+        static string SetTaskNameDialog()
+        {
+            string message = "";
+            while (true)
+            {
+                bool checker = false;
+                string result = Engine.GetStringWithContext($"{message} Type task's Name:", ref checker);
+                if (result == null)
+                {
+                    message = "[Not able to exit]";
+                    continue;
+                }
+                else if (BaseTask.CheckName(result))
+                {
+                    return result;
+                }
+                else
+                {
+                    message = "[Name's lenght should be more than 1 symbol and less than 31]";
+                    continue;
+                }
+            }
+        }
+        static string SetTaskDescriptionDialog()
+        {
+            string message = "";
+            while (true)
+            {
+                bool checker = false;
+                string result = Engine.GetStringWithContext($"{message} Type task's Description:", ref checker);
+                if (result == null)
+                {
+                    message = "[Not able to exit]";
+                    continue;
+                }
+                else
+                {
+                    return result;
+                }
+            }
+        }
+        static void CreateTask(EpicTask parent)
         {
 
         }

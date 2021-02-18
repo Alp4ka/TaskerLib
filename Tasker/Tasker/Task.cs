@@ -15,7 +15,6 @@ namespace Tasker
                 Responders.Add(user);
             }
         }
-
         public Task(
             string name,
             string description,

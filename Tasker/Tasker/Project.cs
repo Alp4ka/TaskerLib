@@ -122,6 +122,7 @@ namespace Tasker
                 }
             }
         }
+        public string Type { get => "[Project]"; }
         public override string ToString()
         {
             /*return $"Project {Name}:\n" +
