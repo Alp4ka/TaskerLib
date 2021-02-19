@@ -70,7 +70,7 @@ namespace Tasker
         }
         public override string ToString()
         {
-            return $"[EpicTask] '{Name}'\n" +
+            return $"[EpicTask] '{Name}'  ID: {ID}\n" +
                 $"SubTasks: {String.Join(", ", GetTasks().Select(x => "[" + x.Name + "]"))}\n" +
                 $"Description: {Description}\n" +
                 $"State: {State}\n" +

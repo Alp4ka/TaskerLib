@@ -36,7 +36,7 @@ namespace TaskerConsole
                 _connection.Open();
                 // Даже не пишите, что можно юзать ForeignKey'и. Я уже дед инсайд, просто сожгите эту ненужную мясную оболочку 
                 // и я полечу покорять астральное пространство своим говнокодом.
-                // Меня на этой планете уже ничего не держит.
+                // Меня на этой планете уже ничего не держит. Делайте че хотите, но не снижайте за кодстайл.
                 // З.Ы. Пользуясь случаем, хочу передать привет всем, кто делает автосейв через сериализацию.
                 // Осуждаю и завидую. Завидую, оттого и осуждаю.*
                 SQLiteCommand command = new SQLiteCommand("CREATE TABLE Users (id INTEGER , Name TEXT, Surname TEXT, Experience INTEGER);" +
@@ -71,22 +71,23 @@ namespace TaskerConsole
         {
             _connection.Open();
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'Projects';", _connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            foreach (DbDataRecord record in reader)
+            using (SQLiteDataReader reader = command.ExecuteReader())
             {
-                int id = int.Parse(record["id"].ToString());
-                string name = record["Name"].ToString();
-                string description = record["Description"].ToString();
-                List<IAssignable> tasks = ParseTasks(record["Tasks"].ToString());
-                try
+                foreach (DbDataRecord record in reader)
                 {
-                    Project temp = new Project(name, description, tasks: tasks);
-                    temp.ID = id;
-                    _projects.Add(temp);
-                }
-                catch
-                {
-
+                    int id = int.Parse(record["id"].ToString());
+                    string name = record["Name"].ToString();
+                    string description = record["Description"].ToString();
+                    List<IAssignable> tasks = ParseTasks(record["Tasks"].ToString());
+                    try
+                    {
+                        Project temp = new Project(name, description, tasks: tasks);
+                        temp.ID = id;
+                        _projects.Add(temp);
+                    }
+                    catch
+                    {
+                    }
                 }
             }
             _connection.Close();
@@ -102,33 +103,34 @@ namespace TaskerConsole
         {
             _connection.Open();
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'Tasks';", _connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            foreach (DbDataRecord record in reader)
+            using (SQLiteDataReader reader = command.ExecuteReader())
             {
-                int id = int.Parse(record["id"].ToString());
-                string name = record["Name"].ToString();
-                string description = record["Description"].ToString();
+                foreach (DbDataRecord record in reader)
+                {
+                    int id = int.Parse(record["id"].ToString());
+                    string name = record["Name"].ToString();
+                    string description = record["Description"].ToString();
 
-                User responder;
-                List<User> tempList = ParseResponders(record["Responders"].ToString());
-                if (tempList.Count < 1)
-                {
-                    responder = null;
-                }
-                else
-                {
-                    responder = tempList[0];
-                }
-                var state = (BaseTask.TaskState)int.Parse(record["State"].ToString());
-                try
-                {
-                    Task temp = new Task(name, description, state: state, responder: responder);
-                    temp.ID = id;
-                    _tasks.Add(temp);
-                }
-                catch
-                {
-
+                    User responder;
+                    List<User> tempList = ParseResponders(record["Responders"].ToString());
+                    if (tempList.Count < 1)
+                    {
+                        responder = null;
+                    }
+                    else
+                    {
+                        responder = tempList[0];
+                    }
+                    var state = (BaseTask.TaskState)int.Parse(record["State"].ToString());
+                    try
+                    {
+                        Task temp = new Task(name, description, state: state, responder: responder);
+                        temp.ID = id;
+                        _tasks.Add(temp);
+                    }
+                    catch
+                    {
+                    }
                 }
             }
             _connection.Close();
@@ -173,22 +175,23 @@ namespace TaskerConsole
         {
             _connection.Open();
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'Users';", _connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            foreach (DbDataRecord record in reader)
+            using (SQLiteDataReader reader = command.ExecuteReader())
             {
-                int id = int.Parse(record["id"].ToString());
-                string name = record["Name"].ToString();
-                string surname = record["Surname"].ToString();
-                int experience = int.Parse(record["Experience"].ToString());
-                try
+                foreach (DbDataRecord record in reader)
                 {
-                    User temp = new User(name, surname, experience);
-                    temp.ID = id;
-                    _users.Add(temp);
-                }
-                catch
-                {
-
+                    int id = int.Parse(record["id"].ToString());
+                    string name = record["Name"].ToString();
+                    string surname = record["Surname"].ToString();
+                    int experience = int.Parse(record["Experience"].ToString());
+                    try
+                    {
+                        User temp = new User(name, surname, experience);
+                        temp.ID = id;
+                        _users.Add(temp);
+                    }
+                    catch
+                    {
+                    }
                 }
             }
             _connection.Close();
@@ -200,21 +203,6 @@ namespace TaskerConsole
             //InitializeDatabase();
             ReadDataBase();
         }
-        public static void LoadProject(Project project)
-        {
-            _projects.Add(project);
-            DBManager.ReloadDB();
-        }
-        public static void LoadTask(IAssignable task)
-        {
-            _tasks.Add(task);
-            DBManager.ReloadDB();
-        }
-        public static void LoadUser(User user)
-        {
-            _users.Add(user);
-            DBManager.ReloadDB();
-        }
         public static void SaveChanges()
         {
             SaveUsers();
@@ -224,6 +212,7 @@ namespace TaskerConsole
         private static void SaveUsers()
         {
             SQLiteCommand command;
+            _connection.Close();
             _connection.Open();
             command = new SQLiteCommand("DELETE FROM Users; VACUUM;", _connection);
             command.ExecuteNonQuery();
@@ -337,48 +326,60 @@ namespace TaskerConsole
         {
             _connection.Open();
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'Bugs';", _connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            foreach (DbDataRecord record in reader)
+            using (SQLiteDataReader reader = command.ExecuteReader())
             {
-                int id = int.Parse(record["id"].ToString());
-                string name = record["Name"].ToString();
-                string description = record["Description"].ToString();
-                User responder = ParseResponders(record["Responders"].ToString())[0];
-                var state = (BaseTask.TaskState)int.Parse(record["State"].ToString());
-                try
+                foreach (DbDataRecord record in reader)
                 {
-                    Bug temp = new Bug(name, description, state: state, responder: responder);
-                    temp.ID = id;
-                    _tasks.Add(temp);
-                }
-                catch
-                {
+                    int id = int.Parse(record["id"].ToString());
+                    string name = record["Name"].ToString();
+                    string description = record["Description"].ToString();
+                    List<User> result = ParseResponders(record["Responders"].ToString());
+                    if (result.Count < 1)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        User responder = result[0];
+                        var state = (BaseTask.TaskState)int.Parse(record["State"].ToString());
+                        try
+                        {
+                            Bug temp = new Bug(name, description, state: state, responder: responder);
+                            temp.ID = id;
+                            _tasks.Add(temp);
+                        }
+                        catch
+                        {
+                        }
+                    }
 
-                }
+                } 
             }
             _connection.Close();
+
         }
         private static void ReadStoryTasks()
         {
-            _connection.Open();
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'StoryTasks';", _connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            foreach (DbDataRecord record in reader)
+            _connection.Open();
+            using (SQLiteDataReader reader = command.ExecuteReader())
             {
-                int id = int.Parse(record["id"].ToString());
-                string name = record["Name"].ToString();
-                string description = record["Description"].ToString();
-                List<User> responders = ParseResponders(record["Responders"].ToString());
-                var state = (BaseTask.TaskState)int.Parse(record["State"].ToString());
-                try
+                foreach (DbDataRecord record in reader)
                 {
-                    StoryTask temp = new StoryTask(name, description, state: state, responders: responders);
-                    temp.ID = id;
-                    _tasks.Add(temp);
-                }
-                catch
-                {
-
+                    int id = int.Parse(record["id"].ToString());
+                    string name = record["Name"].ToString();
+                    string description = record["Description"].ToString();
+                    List<User> responders = ParseResponders(record["Responders"].ToString());
+                    var state = (BaseTask.TaskState)int.Parse(record["State"].ToString());
+                    try
+                    {
+                        StoryTask temp = new StoryTask(name, description, state: state, responders: responders);
+                        temp.ID = id;
+                        _tasks.Add(temp);
+                    }
+                    catch
+                    {
+                    }
                 }
             }
             _connection.Close();
@@ -387,23 +388,24 @@ namespace TaskerConsole
         {
             _connection.Open();
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'EpicTasks';", _connection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            foreach (DbDataRecord record in reader)
+            using (SQLiteDataReader reader = command.ExecuteReader())
             {
-                int id = int.Parse(record["id"].ToString());
-                string name = record["Name"].ToString();
-                string description = record["Description"].ToString();
-                List<IAssignable> tasks = ParseTasks(record["Tasks"].ToString());
-                var state = (BaseTask.TaskState)int.Parse(record["State"].ToString());
-                try
+                foreach (DbDataRecord record in reader)
                 {
-                    EpicTask temp = new EpicTask(name, description, state: state, tasks: tasks);
-                    temp.ID = id;
-                    _tasks.Add(temp);
-                }
-                catch
-                {
-
+                    int id = int.Parse(record["id"].ToString());
+                    string name = record["Name"].ToString();
+                    string description = record["Description"].ToString();
+                    List<IAssignable> tasks = ParseTasks(record["Tasks"].ToString());
+                    var state = (BaseTask.TaskState)int.Parse(record["State"].ToString());
+                    try
+                    {
+                        EpicTask temp = new EpicTask(name, description, state: state, tasks: tasks);
+                        temp.ID = id;
+                        _tasks.Add(temp);
+                    }
+                    catch
+                    {
+                    }
                 }
             }
             _connection.Close();

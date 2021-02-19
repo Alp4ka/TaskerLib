@@ -377,39 +377,64 @@ namespace TaskerConsole
         }
         static void CreateTask(EpicTask parent)
         {
+            string name, description;
+            //BaseTask.TaskState state;
+            name = SetTaskNameDialog();
+            description = SetTaskDescriptionDialog();
+            IAssignable task = SetTypeDialog(name, description);
+            Tasks.Add(task);
+            parent.AddTask(task);
+            DBManager.SaveChanges();
+        }
+        static void EpicTaskTasksWindow(EpicTask epic)
+        {
+
+        }
+        static void ShowRespondersWindow(IAssignable task)
+        {
 
         }
         static void TaskWindow(IAssignable task)
         {
             while (true)
             {
-                List<string> ids = new List<string>();
-                List<string> choice = new List<string>();
                 Dictionary<string, string> menu;
                 if (task is EpicTask)
                 {
-                    menu = Engine.GenerateIDsForMenuItems(new string[] { "change_name", "change_description", "show_tasks" }, new string[] { "Change Name", "Change Description", "Tasks" });
+                    menu = Engine.GenerateIDsForMenuItems(new string[] {"show_tasks", "state", "delete" }, new string[] {"Tasks", "Set State","<Delete>" });
                 }
                 else
                 {
-                    menu = Engine.GenerateIDsForMenuItems(new string[] { "change_name", "change_description", "show_responders" }, new string[] { "Change Name", "Change Description", "Responders" });
+                    menu = Engine.GenerateIDsForMenuItems(new string[] { "show_responders", "state", "delete" }, new string[] { "Responders", "Set State", "<Delete>" });
                 }
 
                 string result = Engine.Menu(menu, title: task.ToString());
                 switch (result)
                 {
-                    case "change_name":
-                        Engine.DrawWindow(new string[] { "change_name" });
-                        break;
-                    case "change_description":
-                        Engine.DrawWindow(new string[] { "change_description" });
-                        break;
                     case "show_tasks":
-                        Engine.DrawWindow(new string[] { "show_tasks" });
+                        EpicTaskTasksWindow(task as EpicTask);
                         break;
                     case "show_responders":
-                        Engine.DrawWindow(new string[] { "show_responders" });
+                        ShowRespondersWindow(task);
                         break;
+                    case "state":
+                        SetStateDialog(task);
+                        break;
+                    case "delete":
+                        foreach(IAssignable temp in Tasks)
+                        {
+                            if(temp is EpicTask)
+                            {
+                                (temp as EpicTask).RemoveTask(task);
+                            }
+                        }
+                        foreach(Project project in Projects)
+                        {
+                            project.RemoveTask(task);
+                        }
+                        Tasks.Remove(task);
+                        DBManager.SaveChanges();
+                        return;
                     case null:
                         return;
                 }
