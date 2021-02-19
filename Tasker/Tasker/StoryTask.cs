@@ -30,7 +30,7 @@ namespace Tasker
         }
         public override string ToString()
         {
-            return $"[StoryTask] '{Name}'  ID: {ID}\n" + 
+            return $"[StoryTask] '{Name}'  ID: {ID}. " + 
                 $"{base.ToString()}";
         }
     }

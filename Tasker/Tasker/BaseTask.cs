@@ -168,9 +168,9 @@ namespace Tasker
         }
         public override string ToString()
         {
-            return $"Description: {Description}\n" +
-                                $"State: {State}\n" +
-                                $"Responders: \n{String.Join(", \n", GetResponders())}\n";
+            return $"Description: {Description}. " +
+                                $"State: {State}. ";
+                                //$"Responders: \n{String.Join(", \n", GetResponders())}\n";
         }
     }
 }

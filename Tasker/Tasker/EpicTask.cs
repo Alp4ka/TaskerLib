@@ -7,9 +7,21 @@ namespace Tasker
     public class EpicTask:BaseTask
     {
         private List<IAssignable> _subTasks;
-        public List<IAssignable> GetTasks()
+        public List<IAssignable> GetTasks(BaseTask.TaskState? state = null)
         {
-            return _subTasks;
+            if (state == null)
+            {
+                return _subTasks;
+            }
+            List<IAssignable> assignables = new List<IAssignable>();
+            foreach (IAssignable ia in _subTasks)
+            {
+                if ((ia as BaseTask).State == state)
+                {
+                    assignables.Add(ia);
+                }
+            }
+            return assignables;
         }
         //TODO
         new public void AddResponder(User user)
@@ -70,11 +82,11 @@ namespace Tasker
         }
         public override string ToString()
         {
-            return $"[EpicTask] '{Name}'  ID: {ID}\n" +
-                $"SubTasks: {String.Join(", ", GetTasks().Select(x => "[" + x.Name + "]"))}\n" +
-                $"Description: {Description}\n" +
-                $"State: {State}\n" +
-                $"Responders: \n{String.Join(", \n", GetResponders())}\n";
+            return $"[EpicTask] '{Name}'  ID: {ID}. " +
+                //$"SubTasks: {String.Join(", ", GetTasks().Select(x => "[" + x.Name + "]"))}\n" +
+                $"Description: {Description}. " +
+                $"State: {State}. ";
+                //$"Responders: \n{String.Join(", \n", GetResponders())}\n";
         }
     }
 }

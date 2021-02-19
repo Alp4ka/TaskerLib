@@ -311,26 +311,45 @@ namespace TaskerConsole
                 }
             }
         }
-        static IAssignable SetTypeDialog(string name, string description)
+        static IAssignable SetTypeDialog(string name, string description, bool isPorject=true)
         {
             while (true)
             {
-                var menu = Engine.GenerateIDsForMenuItems(new string[] { "task", "bug", "epic", "story"}, new string[] { "Task", "Bug", "Epic Task", "Story Task"});
-                string result = Engine.Menu(menu, title: $"Type selector");
-                switch (result)
+                if (isPorject)
                 {
-                    case "task":
-                        return new Task(name, description);
-                    case "bug":
-                        return new Bug(name, description);
-                    case null:
-                        break;
-                    case "epic":
-                        return new EpicTask(name, description);
-                    case "story":
-                        return new StoryTask(name, description);
-                    default:
-                        break;
+                    var menu = Engine.GenerateIDsForMenuItems(new string[] { "task", "bug", "epic", "story" }, new string[] { "Task", "Bug", "Epic Task", "Story Task" });
+                    string result = Engine.Menu(menu, title: $"Type selector");
+                    switch (result)
+                    {
+                        case "task":
+                            return new Task(name, description);
+                        case "bug":
+                            return new Bug(name, description);
+                        case null:
+                            break;
+                        case "epic":
+                            return new EpicTask(name, description);
+                        case "story":
+                            return new StoryTask(name, description);
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    var menu = Engine.GenerateIDsForMenuItems(new string[] { "task", "story" }, new string[] { "Task", "Story Task" });
+                    string result = Engine.Menu(menu, title: $"Type selector");
+                    switch (result)
+                    {
+                        case "task":
+                            return new Task(name, description);
+                        case null:
+                            break;
+                        case "story":
+                            return new StoryTask(name, description);
+                        default:
+                            break;
+                    }
                 }
             }
         }
@@ -381,18 +400,117 @@ namespace TaskerConsole
             //BaseTask.TaskState state;
             name = SetTaskNameDialog();
             description = SetTaskDescriptionDialog();
-            IAssignable task = SetTypeDialog(name, description);
+            IAssignable task = SetTypeDialog(name, description, false);
             Tasks.Add(task);
             parent.AddTask(task);
             DBManager.SaveChanges();
         }
         static void EpicTaskTasksWindow(EpicTask epic)
         {
-
+            while (true)
+            {
+                var tasks = epic.GetTasks(BaseTask.TaskState.Open);
+                tasks.AddRange(epic.GetTasks(BaseTask.TaskState.InProgress));
+                tasks.AddRange(epic.GetTasks(BaseTask.TaskState.Closed));
+                List<string> ids = new List<string>();
+                List<string> choice = new List<string>();
+                ids.Add("create_new");
+                choice.Add("<New Task>");
+                ids.AddRange(tasks.Select(x => x.ToString()).ToArray());
+                choice.AddRange(tasks.Select(x => x.Type + " " + x.Name + $" ID: {x.ID}. Status: {(x as BaseTask).State}").ToArray());
+                Dictionary<string, string> menu = Engine.GenerateIDsForMenuItems(ids.ToArray(), choice.ToArray());
+                string result = Engine.ScrollableMenu(menu, 10, title: "Subtasks Menu:");
+                switch (result)
+                {
+                    case "create_new":
+                        CreateTask(epic);
+                        break;
+                    default:
+                        var searchResult = epic.GetTasks().FindAll(x => x.ToString() == result);
+                        if (searchResult.Count > 0)
+                        {
+                            TaskWindow(searchResult[0]);
+                        }
+                        break;
+                    case null:
+                        return;
+                }
+            }
+        }
+        static void ResponderWindow(IAssignable task, User responder)
+        {
+            while (true)
+            {
+                Dictionary<string, string> menu = Engine.GenerateIDsForMenuItems(new string[] { "remove"}, new string[] { "<Remove>"});
+                string result = Engine.ScrollableMenu(menu, 10, title: $"Responder {responder} in {task.Type} {task.Name}:");
+                switch (result)
+                {
+                    case "remove":
+                        task.RemoveResponder(responder);
+                        DBManager.SaveChanges();
+                        return;
+                    default:
+                        break;
+                    case null:
+                        return;
+                }
+            }
+        }
+        static void AddResponderWindow(IAssignable task)
+        {
+            while (true)
+            {
+                var res = Users.Except(task.GetResponders()).ToList();
+                List<string> ids = new List<string>();
+                List<string> choice = new List<string>();
+                ids.AddRange(res.Select(x => x.ID.ToString()).ToArray());
+                choice.AddRange(res.Select(x => $"{x.Type} {x.Fullname} Rank: {x.Rank} with {x.Experience} exp.").ToArray());
+                Dictionary<string, string> menu = Engine.GenerateIDsForMenuItems(ids.ToArray(), choice.ToArray());
+                string result = Engine.ScrollableMenu(menu, 10, title: $"Add Responder to {task.Type} {task.Name}:");
+                switch (result)
+                {
+                    default:
+                        var searchResult = res.FindAll(x => x.ID == int.Parse(result));
+                        if (searchResult.Count > 0)
+                        {
+                            task.AddResponder(searchResult[0]);
+                            DBManager.SaveChanges();
+                        }
+                        break;
+                    case null:
+                        return;
+                }
+            }
         }
         static void ShowRespondersWindow(IAssignable task)
         {
-
+            while (true)
+            {
+                var res = task.GetResponders();
+                List<string> ids = new List<string>();
+                List<string> choice = new List<string>();
+                ids.Add("add_new");
+                choice.Add("<Add Responder>");
+                ids.AddRange(res.Select(x => x.ID.ToString()).ToArray());
+                choice.AddRange(res.Select(x => $"{x.Type} {x.Fullname} Rank: {x.Rank} with {x.Experience} exp.").ToArray());
+                Dictionary<string, string> menu = Engine.GenerateIDsForMenuItems(ids.ToArray(), choice.ToArray());
+                string result = Engine.ScrollableMenu(menu, 10, title: $"{task.Type} {task.Name} Responders:");
+                switch (result)
+                {
+                    case "add_new":
+                        AddResponderWindow(task);
+                        break;
+                    default:
+                        var searchResult = res.FindAll(x => x.ID == int.Parse(result));
+                        if (searchResult.Count > 0)
+                        {
+                            ResponderWindow(task, searchResult[0]);
+                        }
+                        break;
+                    case null:
+                        return;
+                }
+            }
         }
         static void TaskWindow(IAssignable task)
         {

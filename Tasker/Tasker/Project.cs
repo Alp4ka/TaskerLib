@@ -127,9 +127,9 @@ namespace Tasker
         {
             /*return $"Project {Name}:\n" +
                 $"Description: {string.Format("{0,25}", Description)}...";*/
-            return $"[Project] '{Name}':\n" +
-                $"Description: {Description}\n" +
-                $"Responders: {String.Join(", \n", GetResponders())}\n"+
+            return $"[Project] '{Name}'. " +
+                $"Description: {Description}. " +
+                //$"Responders: {String.Join(", \n", GetResponders())}\n"+
                 $"Percentage: {Percentage:F2}%";
         }
     }
