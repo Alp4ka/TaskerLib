@@ -466,20 +466,28 @@ namespace TaskerConsole
                 ids.AddRange(res.Select(x => x.ID.ToString()).ToArray());
                 choice.AddRange(res.Select(x => $"{x.Type} {x.Fullname} Rank: {x.Rank} with {x.Experience} exp.").ToArray());
                 Dictionary<string, string> menu = Engine.GenerateIDsForMenuItems(ids.ToArray(), choice.ToArray());
-                string result = Engine.ScrollableMenu(menu, 10, title: $"Add Responder to {task.Type} {task.Name}:");
-                switch (result)
+                try
                 {
-                    default:
-                        var searchResult = res.FindAll(x => x.ID == int.Parse(result));
-                        if (searchResult.Count > 0)
-                        {
-                            task.AddResponder(searchResult[0]);
-                            DBManager.SaveChanges();
-                        }
-                        break;
-                    case null:
-                        return;
+                    string result = Engine.ScrollableMenu(menu, 10, title: $"Add Responder to {task.Type} {task.Name}:");
+                    switch (result)
+                    {
+                        default:
+                            var searchResult = res.FindAll(x => x.ID == int.Parse(result));
+                            if (searchResult.Count > 0)
+                            {
+                                task.AddResponder(searchResult[0]);
+                                DBManager.SaveChanges();
+                            }
+                            break;
+                        case null:
+                            return;
+                    }
                 }
+                catch
+                {
+                    return;
+                }
+                
             }
         }
         static void ShowRespondersWindow(IAssignable task)
