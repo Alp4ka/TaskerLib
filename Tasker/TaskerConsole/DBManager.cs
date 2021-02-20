@@ -226,7 +226,7 @@ namespace TaskerConsole
             }
             _connection.Close();
         }
-        //TODO
+
         private static void SaveProjects()
         {
             SQLiteCommand command;
