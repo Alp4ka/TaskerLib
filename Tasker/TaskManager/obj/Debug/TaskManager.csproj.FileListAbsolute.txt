@@ -1,0 +1,13 @@
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\bin\Debug\TaskManager.exe.config
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\bin\Debug\TaskManager.exe
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\bin\Debug\TaskManager.pdb
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\bin\Debug\MetroFramework.dll
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.csprojAssemblyReference.cache
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.Form1.resources
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.Properties.Resources.resources
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.csproj.GenerateResource.cache
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.csproj.CoreCompileInputs.cache
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.csproj.CopyComplete
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.exe
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.pdb
