@@ -7,6 +7,12 @@ namespace Tasker
     public class EpicTask:BaseTask
     {
         private List<IAssignable> _subTasks;
+
+        /// <summary>
+        /// Get subtasks.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
         public List<IAssignable> GetTasks(BaseTask.TaskState? state = null)
         {
             if (state == null)
@@ -23,13 +29,27 @@ namespace Tasker
             }
             return assignables;
         }
-        //TODO
+        
+        /// <summary>
+        /// Overrididng addresponder method.
+        /// </summary>
+        /// <param name="user"></param>
         new public void AddResponder(User user)
         {
         }
+
+        /// <summary>
+        /// Overriding addresponder method.
+        /// </summary>
+        /// <param name="user"></param>
         new public void RemoveResponder(User user)
         {
         }
+
+        /// <summary>
+        /// Get responders.
+        /// </summary>
+        /// <returns></returns>
         new public List<User> GetResponders()
         {
             var result = new List<User>();
@@ -40,9 +60,14 @@ namespace Tasker
             result = result.Distinct().ToList();
             return result;
         }
+
+        /// <summary>
+        /// Add task method.
+        /// </summary>
+        /// <param name="task"></param>
         public void AddTask(IAssignable task)
         {
-            if (_subTasks.Contains(task)/* || _subTasks.Select(x=>x.UID).Contains(task.UID)*/)
+            if (_subTasks.Contains(task))
             {
                 throw new ArgumentException($"Task is already in list.");
             }
@@ -52,6 +77,11 @@ namespace Tasker
             }
             _subTasks.Add(task);
         }
+
+        /// <summary>
+        /// Add tasks.
+        /// </summary>
+        /// <param name="tasks"> List of tasks. </param>
         public void AddTasks(List<IAssignable> tasks)
         {
             foreach(IAssignable task in tasks)
@@ -59,6 +89,10 @@ namespace Tasker
                 AddTask(task);
             }
         }
+        /// <summary>
+        /// Remove task.
+        /// </summary>
+        /// <param name="task"></param>
         public void RemoveTask(IAssignable task)
         {
             _subTasks.Remove(task);
@@ -66,8 +100,6 @@ namespace Tasker
         public EpicTask(
             string name,
             string description,
-            /*DateTime start = default(DateTime),
-            DateTime finish = default(DateTime),*/
             TaskState state = TaskState.Open,
             List<IAssignable> tasks = null) : base(name, description, /*start, finish,*/ state)
         {
@@ -83,11 +115,9 @@ namespace Tasker
         public override string ToString()
         {
             return $"[EpicTask] '{Name}'  ID: {ID}. " +
-                //$"SubTasks: {String.Join(", ", GetTasks().Select(x => "[" + x.Name + "]"))}\n" +
                 $"Description: {Description}. " +
                 $"State: {State}. "+
                 $"Creation: {CreationDate}";
-                //$"Responders: \n{String.Join(", \n", GetResponders())}\n";
         }
     }
 }

@@ -53,6 +53,9 @@
             this.newProjectButton = new MetroFramework.Controls.MetroTile();
             this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
             this.projectsPanel = new MetroFramework.Controls.MetroPanel();
+            this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
+            this.controlExitButton = new MetroFramework.Controls.MetroTile();
+            this.rollUpButton = new MetroFramework.Controls.MetroTile();
             this.menuPage.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.projectsPage.SuspendLayout();
@@ -64,6 +67,7 @@
             // menuPage
             // 
             this.menuPage.BackColor = System.Drawing.Color.Maroon;
+            this.menuPage.Controls.Add(this.metroLabel7);
             this.menuPage.Controls.Add(this.exitButton);
             this.menuPage.Controls.Add(this.usersButton);
             this.menuPage.Controls.Add(this.projectsButton);
@@ -78,6 +82,7 @@
             // 
             // exitButton
             // 
+            this.exitButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.exitButton.Location = new System.Drawing.Point(513, 104);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(260, 95);
@@ -174,7 +179,7 @@
             this.usersPanel.HorizontalScrollbarSize = 10;
             this.usersPanel.Location = new System.Drawing.Point(253, 46);
             this.usersPanel.Name = "usersPanel";
-            this.usersPanel.Size = new System.Drawing.Size(503, 299);
+            this.usersPanel.Size = new System.Drawing.Size(504, 299);
             this.usersPanel.Style = MetroFramework.MetroColorStyle.Blue;
             this.usersPanel.TabIndex = 3;
             this.usersPanel.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -378,7 +383,7 @@
             this.projectsPanel.HorizontalScrollbarSize = 10;
             this.projectsPanel.Location = new System.Drawing.Point(253, 46);
             this.projectsPanel.Name = "projectsPanel";
-            this.projectsPanel.Size = new System.Drawing.Size(503, 299);
+            this.projectsPanel.Size = new System.Drawing.Size(504, 299);
             this.projectsPanel.Style = MetroFramework.MetroColorStyle.Blue;
             this.projectsPanel.TabIndex = 5;
             this.projectsPanel.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -387,11 +392,46 @@
             this.projectsPanel.VerticalScrollbarHighlightOnWheel = true;
             this.projectsPanel.VerticalScrollbarSize = 10;
             // 
+            // metroLabel7
+            // 
+            this.metroLabel7.AutoSize = true;
+            this.metroLabel7.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel7.Location = new System.Drawing.Point(364, 43);
+            this.metroLabel7.Name = "metroLabel7";
+            this.metroLabel7.Size = new System.Drawing.Size(56, 25);
+            this.metroLabel7.TabIndex = 5;
+            this.metroLabel7.Text = "Menu";
+            this.metroLabel7.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // controlExitButton
+            // 
+            this.controlExitButton.Location = new System.Drawing.Point(779, 10);
+            this.controlExitButton.Name = "controlExitButton";
+            this.controlExitButton.Size = new System.Drawing.Size(15, 15);
+            this.controlExitButton.Style = MetroFramework.MetroColorStyle.Red;
+            this.controlExitButton.TabIndex = 1;
+            this.controlExitButton.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.controlExitButton.Click += new System.EventHandler(this.controlExitButton_Click);
+            // 
+            // rollUpButton
+            // 
+            this.rollUpButton.Location = new System.Drawing.Point(758, 10);
+            this.rollUpButton.Name = "rollUpButton";
+            this.rollUpButton.Size = new System.Drawing.Size(15, 15);
+            this.rollUpButton.Style = MetroFramework.MetroColorStyle.Yellow;
+            this.rollUpButton.TabIndex = 2;
+            this.rollUpButton.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.rollUpButton.Click += new System.EventHandler(this.rollUpButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.exitButton;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ControlBox = false;
+            this.Controls.Add(this.rollUpButton);
+            this.Controls.Add(this.controlExitButton);
             this.Controls.Add(this.tabControl);
             this.Name = "MainForm";
             this.Opacity = 0.95D;
@@ -403,6 +443,7 @@
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.menuPage.ResumeLayout(false);
+            this.menuPage.PerformLayout();
             this.tabControl.ResumeLayout(false);
             this.projectsPage.ResumeLayout(false);
             this.projectsPage.PerformLayout();
@@ -443,5 +484,8 @@
         private MetroFramework.Controls.MetroTile newProjectButton;
         private MetroFramework.Controls.MetroLabel metroLabel3;
         private MetroFramework.Controls.MetroPanel projectsPanel;
+        private MetroFramework.Controls.MetroLabel metroLabel7;
+        private MetroFramework.Controls.MetroTile controlExitButton;
+        private MetroFramework.Controls.MetroTile rollUpButton;
     }
 }

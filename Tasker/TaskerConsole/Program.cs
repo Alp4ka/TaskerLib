@@ -42,13 +42,20 @@ namespace TaskerConsole
                 }
             }
         }
-
+        /// <summary>
+        /// Cancel key void for event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         static void CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
             DBManager.Connection.Close();
             DBManager.SaveChanges();
             Environment.Exit(1);
         }
+        /// <summary>
+        /// Project creation dialog.
+        /// </summary>
         static void ProjectCreationDialog()
         {
             string name, description;
@@ -58,6 +65,10 @@ namespace TaskerConsole
             Projects.Add(project);
             DBManager.SaveChanges();
         }
+        /// <summary>
+        /// Project set name dialog.
+        /// </summary>
+        /// <returns></returns>
         static string ProjectSetNameDialog()
         {
             string message = "";
@@ -81,6 +92,11 @@ namespace TaskerConsole
                 }
             }
         }
+
+        /// <summary>
+        /// Project set description dialog.
+        /// </summary>
+        /// <returns></returns>
         static string ProjectSetDescriptionDialog()
         {
             string message = "";
@@ -99,6 +115,10 @@ namespace TaskerConsole
                 }
             }
         }
+
+        /// <summary>
+        /// Users control dialog.
+        /// </summary>
         static void UsersControlDialog()
         {
             while (true)
@@ -124,6 +144,11 @@ namespace TaskerConsole
                 }
             }
         }
+
+        /// <summary>
+        /// User page dialog.
+        /// </summary>
+        /// <param name="user"> User. </param>
         static void UserPageDialog(User user)
         {
             List<string> ids = new List<string>();
@@ -148,6 +173,9 @@ namespace TaskerConsole
                     return;
             }
         }
+        /// <summary>
+        /// User creation process.
+        /// </summary>
         static void UserCreation()
         {
             string name, surname;
@@ -158,6 +186,11 @@ namespace TaskerConsole
             DBManager.SaveChanges();
 
         }
+
+        /// <summary>
+        /// User name dialog.
+        /// </summary>
+        /// <returns> String with name. </returns>
         static string SetUserNameDialog()
         {
             string message = "";
@@ -181,6 +214,10 @@ namespace TaskerConsole
                 }
             }
         }
+        /// <summary>
+        /// Set user surname dialog.
+        /// </summary>
+        /// <returns></returns>
         static string SetUserSurnameDialog()
         {
             string message = "";
@@ -204,6 +241,10 @@ namespace TaskerConsole
                 }
             }
         }
+
+        /// <summary>
+        /// Project menu window.
+        /// </summary>
         static void ProjectsMenu()
         {
             while (true)
@@ -236,6 +277,11 @@ namespace TaskerConsole
                 }
             }
         }
+
+        /// <summary>
+        /// Window with project
+        /// </summary>
+        /// <param name="project"></param>
         static void ProjectWindow(Project project)
         {
             while (true)
@@ -278,6 +324,10 @@ namespace TaskerConsole
                 }
             }
         }
+        /// <summary>
+        /// Create task.
+        /// </summary>
+        /// <param name="parent"></param>
         static void CreateTask(Project parent)
         {
             string name, description;
@@ -290,6 +340,11 @@ namespace TaskerConsole
             DBManager.SaveChanges();
             //state = SetStateDialog(task);
         }
+        /// <summary>
+        /// Set task dialog.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
         static BaseTask.TaskState SetStateDialog(IAssignable task)
         {
             while (true)
@@ -314,6 +369,13 @@ namespace TaskerConsole
                 }
             }
         }
+        /// <summary>
+        /// Set type of task.
+        /// </summary>
+        /// <param name="name"> String with name. </param>
+        /// <param name="description"> String with description. </param>
+        /// <param name="isPorject"> Bool shows it's task or project. </param>
+        /// <returns></returns>
         static IAssignable SetTypeDialog(string name, string description, bool isPorject=true)
         {
             while (true)
@@ -356,6 +418,11 @@ namespace TaskerConsole
                 }
             }
         }
+
+        /// <summary>
+        /// Set name dialog.
+        /// </summary>
+        /// <returns> String with name. </returns>
         static string SetTaskNameDialog()
         {
             string message = "";
@@ -379,6 +446,10 @@ namespace TaskerConsole
                 }
             }
         }
+        /// <summary>
+        /// Description set dialog.
+        /// </summary>
+        /// <returns> String with description. </returns>
         static string SetTaskDescriptionDialog()
         {
             string message = "";
@@ -397,6 +468,10 @@ namespace TaskerConsole
                 }
             }
         }
+        /// <summary>
+        /// Create task init.
+        /// </summary>
+        /// <param name="parent"></param>
         static void CreateTask(EpicTask parent)
         {
             string name, description;
@@ -408,6 +483,10 @@ namespace TaskerConsole
             parent.AddTask(task);
             DBManager.SaveChanges();
         }
+        /// <summary>
+        /// Window with EpicTask.
+        /// </summary>
+        /// <param name="epic"></param>
         static void EpicTaskTasksWindow(EpicTask epic)
         {
             while (true)
@@ -440,6 +519,11 @@ namespace TaskerConsole
                 }
             }
         }
+        /// <summary>
+        /// Window with responder of task.
+        /// </summary>
+        /// <param name="task"> Task. </param>
+        /// <param name="responder"> Responder. </param>
         static void ResponderWindow(IAssignable task, User responder)
         {
             while (true)
@@ -459,6 +543,10 @@ namespace TaskerConsole
                 }
             }
         }
+        /// <summary>
+        /// Window with responder addition.
+        /// </summary>
+        /// <param name="task"></param>
         static void AddResponderWindow(IAssignable task)
         {
             while (true)
@@ -493,6 +581,10 @@ namespace TaskerConsole
                 
             }
         }
+        /// <summary>
+        /// Window with responders of task.
+        /// </summary>
+        /// <param name="task"></param>
         static void ShowRespondersWindow(IAssignable task)
         {
             while (true)
@@ -523,6 +615,11 @@ namespace TaskerConsole
                 }
             }
         }
+
+        /// <summary>
+        /// Window with task info.
+        /// </summary>
+        /// <param name="task"> Task object. </param>
         static void TaskWindow(IAssignable task)
         {
             while (true)

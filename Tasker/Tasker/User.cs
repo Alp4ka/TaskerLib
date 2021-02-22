@@ -4,14 +4,24 @@ namespace Tasker
 {
     public class User
     {
+        // User id.
         public int ID { get; set; }
+        // User name.
         public string Name { get; private set; }
+        // User surname.
         public string Surname { get; private set; }
+        // User experience.
         public int Experience { get; set; }
-        //public string Nickname {get; private set;}
+        // User rank.
         public string Rank { get=> Utils.GetRankByExp(Experience); }
+        // User fullname.
         public string Fullname { get => $"{Name} {Surname}"; }
-        //public int UID { get => _uid; set { _uid = value; } }
+
+        /// <summary>
+        /// Set name.
+        /// </summary>
+        /// <param name="newName"> String name. </param>
+        /// <returns> true if correct, false otherwise. </returns>
         public bool SetName(string newName)
         {
             if(newName.Length < 2 || newName.Length > 30)
@@ -21,6 +31,11 @@ namespace Tasker
             Name = char.ToUpper(newName[0]) + newName.Substring(1);
             return true;
         }
+        /// <summary>
+        /// Set surname.
+        /// </summary>
+        /// <param name="newSurname"> String surname. </param>
+        /// <returns> true if correct, false otherwise. </returns>
         public bool SetSurname(string newSurname)
         {
             if (newSurname.Length < 2 || newSurname.Length > 40)
@@ -30,7 +45,14 @@ namespace Tasker
             Surname = char.ToUpper(newSurname[0]) + newSurname.Substring(1);
             return true;
         }
+        // Get Type.
         public string Type { get => "[User]"; }
+
+        /// <summary>
+        /// Check name.
+        /// </summary>
+        /// <param name="name"> String name. </param>
+        /// <returns> true id correct, false otherwise. </returns>
         public static bool CheckName(string name)
         {
             if (name.Length < 2 || name.Length > 30)
@@ -39,6 +61,12 @@ namespace Tasker
             }
             return true;
         }
+
+        /// <summary>
+        /// Check surname.
+        /// </summary>
+        /// <param name="name"> String name. </param>
+        /// <returns> true id correct, false otherwise. </returns>
         public static bool CheckSurname(string name)
         {
             if (name.Length < 2 || name.Length > 40)

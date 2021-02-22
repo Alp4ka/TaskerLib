@@ -32,6 +32,18 @@ namespace TaskManager
             InitializeUsersView();
             InitializeProjectsView();
         }
+        public User GetUserByID(int id)
+        {
+            return Users.Find(x => x.ID == id);
+        }
+        public Project GetProjectByID(int id)
+        {
+            return Projects.Find(x => x.ID == id);
+        }
+        public IAssignable GetTaskByID(int id)
+        {
+            return Tasks.Find(x => x.ID == id);
+        }
         public void InitializeProjectsView()
         {
             projectsPanel.Controls.Clear();
@@ -51,15 +63,42 @@ namespace TaskManager
                 button.Width = usersPanel.Width;
                 button.Height = 50;
                 button.Controls.Add(mpb);
-                mpb.Location = new Point(button.Width - mpb.Width,
-                                          0);
+                mpb.Location = new Point(button.Width - mpb.Width, 0);
                 projectsPanel.Controls.Add(button);
+
+
+                MetroTile delBtn = new MetroTile();
+                delBtn.TextAlign = ContentAlignment.MiddleCenter;
+                delBtn.Name = project.ID.ToString() + "R";
+                delBtn.Theme = MetroFramework.MetroThemeStyle.Dark;
+                delBtn.Style = MetroFramework.MetroColorStyle.Red;
+                delBtn.Text = $"-";
+                delBtn.Width = 50;
+                delBtn.Height = 50;
+                delBtn.Location = new Point(usersPanel.Width-50, 0);
+                delBtn.Click += DeleteProjectByClick;
+                button.Controls.Add(delBtn);
+
             }
-            RecalculateChildren(projectsPanel, 20);
+            RecalculateChildren(projectsPanel, 10);
+        }
+        public void ShowUserInfo(User user)
+        {
+            UserPage up = new UserPage();
+            up.userNameLabel.Text = user.Name;
+            up.userSurnameLabel.Text = user.Surname;
+            up.userIdLabel.Text = user.ID.ToString();
+            up.userRankLabel.Text = user.Rank;
+            up.ShowDialog();
+        }
+        public void UserButtonClick(object sender, EventArgs e)
+        {
+            ShowUserInfo(GetUserByID(int.Parse((sender as Control).Name)));
         }
         public void InitializeUsersView()
         {
             usersPanel.Controls.Clear();
+            // user buttons.
             foreach(User user in Users)
             {
                 MetroTile button = new MetroTile();
@@ -68,9 +107,68 @@ namespace TaskManager
                 button.Text = $"{user.ID}: {user.Fullname}";
                 button.Width = usersPanel.Width;
                 button.Height = 50;
+                button.Click += UserButtonClick;
                 usersPanel.Controls.Add(button);
+
+                MetroTile delBtn = new MetroTile();
+                delBtn.TextAlign = ContentAlignment.MiddleCenter;
+                delBtn.Name = user.ID.ToString() + "R";
+                delBtn.Theme = MetroFramework.MetroThemeStyle.Dark;
+                delBtn.Style = MetroFramework.MetroColorStyle.Red;
+                delBtn.Text = $"-";
+                delBtn.Width = 50;
+                delBtn.Location = new Point(button.Width-delBtn.Width, 0);
+                delBtn.Height = 50;
+                delBtn.Click += DeleteUserByClick;
+                button.Controls.Add(delBtn);
             }
-            RecalculateChildren(usersPanel, 20);
+            RecalculateChildren(usersPanel, 10);
+        }
+        private void DeleteUserByClick(object sender, EventArgs e)
+        {
+            // Name = ID+'R'
+            int id;
+            if(int.TryParse((sender as Control).Name.Replace("R", ""), out id))
+            {
+                User user = GetUserByID(id);
+                if(user == default)
+                {
+                    return;
+                }
+                else
+                {
+                    Users.Remove(user);
+                    DBManager.SaveChanges();
+                    InitializeUsersView();
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+        private void DeleteProjectByClick(object sender, EventArgs e)
+        {
+            // Name = ID+'R'
+            int id;
+            if (int.TryParse((sender as Control).Name.Replace("R", ""), out id))
+            {
+                Project project = GetProjectByID(id);
+                if (project == default)
+                {
+                    return;
+                }
+                else
+                {
+                    Projects.Remove(project);
+                    DBManager.SaveChanges();
+                    InitializeProjectsView();
+                }
+            }
+            else
+            {
+                return;
+            }
         }
 
         private void RecalculateChildren(MetroPanel mpanel, int distance = 20)
@@ -89,6 +187,10 @@ namespace TaskManager
         }
 
         private void exitButton_Click(object sender, EventArgs e)
+        {
+            CloseForm();
+        }
+        private void CloseForm()
         {
             DBManager.Connection.Close();
             DBManager.SaveChanges();
@@ -121,9 +223,7 @@ namespace TaskManager
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DBManager.Connection.Close();
-            DBManager.SaveChanges();
-            Environment.Exit(0);
+            CloseForm();
         }
 
         private void newProjectButton_Click(object sender, EventArgs e)
@@ -138,6 +238,16 @@ namespace TaskManager
             DBManager.SaveChanges();
             warningProj.Text = "Success!";
             InitializeProjectsView();
+        }
+
+        private void controlExitButton_Click(object sender, EventArgs e)
+        {
+            CloseForm();
+        }
+
+        private void rollUpButton_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }

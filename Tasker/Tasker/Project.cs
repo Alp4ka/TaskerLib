@@ -6,9 +6,13 @@ namespace Tasker
 {
     public class Project
     {
+        // Project ID.
         public int ID { get; set; }
+        // Project Name.
         public string Name { get; set; }
+        // Project Description.
         public string Description { get; set; }
+        // Get percentage done/all_tasks.
         public double Percentage
         {
             get
@@ -24,6 +28,10 @@ namespace Tasker
         }
         private List<IAssignable> _tasks;
         
+        /// <summary>
+        /// Add task.
+        /// </summary>
+        /// <param name="task"> Task. </param>
         public void AddTask(IAssignable task)
         {
             if (!_tasks.Contains(task))
@@ -32,6 +40,12 @@ namespace Tasker
             }
 
         }
+
+        /// <summary>
+        /// Get tasks(1st layer).
+        /// </summary>
+        /// <param name="state"> Of state. </param>
+        /// <returns> List of tasks. </returns>
         public List<IAssignable> GetTasks(BaseTask.TaskState? state=null)
         {
             if(state == null)
@@ -48,6 +62,11 @@ namespace Tasker
             }
             return assignables;
         }
+
+        /// <summary>
+        /// Get all tasks.
+        /// </summary>
+        /// <returns> List of tasks. </returns>
         public List<IAssignable> GetAllTasks()
         {
             List<IAssignable> result = new List<IAssignable>();
@@ -65,6 +84,11 @@ namespace Tasker
             }
             return _tasks;
         }
+
+        /// <summary>
+        /// Get responders list.
+        /// </summary>
+        /// <returns> List of responders. </returns>
         public List<User> GetResponders()
         {
             List<User> result = new List<User>();
@@ -75,10 +99,20 @@ namespace Tasker
             result = result.Distinct().ToList();
             return result;
         }
+
+        /// <summary>
+        /// Remove task.
+        /// </summary>
+        /// <param name="task"> Remove task. </param>
         public void RemoveTask(IAssignable task)
         {
             _tasks.Remove(task);
         }
+        /// <summary>
+        /// Set name method.
+        /// </summary>
+        /// <param name="newName"> String new name. </param>
+        /// <returns> true if correct, false otherwise. </returns>
         public bool SetName(string newName)
         {
             if (CheckName(newName))
@@ -88,6 +122,11 @@ namespace Tasker
             }
             return true;
         }
+        /// <summary>
+        /// Check name.
+        /// </summary>
+        /// <param name="newName"> string name. </param>
+        /// <returns> true if correct, false otherwise. </returns>
         public static bool CheckName(string newName)
         {
             if (newName.Length < 2 || newName.Length > 30)
@@ -96,13 +135,19 @@ namespace Tasker
             }
             return true;
         }
+
+        /// <summary>
+        /// Set description.
+        /// </summary>
+        /// <param name="newDescription"> String description. </param>
+        /// <returns> true if correct, false otherwise. </returns>
         public bool SetDescription(string newDescription)
         {
             Description = newDescription;
             return true;
         }
         
-            
+
         public Project(string name, string description, List <IAssignable> tasks = null)
         {
             _tasks = new List<IAssignable>();
@@ -122,14 +167,13 @@ namespace Tasker
                 }
             }
         }
+
+        // Project type.
         public string Type { get => "[Project]"; }
         public override string ToString()
         {
-            /*return $"Project {Name}:\n" +
-                $"Description: {string.Format("{0,25}", Description)}...";*/
             return $"[Project] '{Name}'. " +
                 $"Description: {Description}. " +
-                //$"Responders: {String.Join(", \n", GetResponders())}\n"+
                 $"Percentage: {Percentage:F2}%";
         }
     }

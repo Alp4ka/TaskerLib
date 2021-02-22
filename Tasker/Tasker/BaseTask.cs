@@ -5,8 +5,12 @@ namespace Tasker
 {
     public class BaseTask : IAssignable
     {
+        // Base task ID.
         public int ID { get; set; }
+
         private int _expBuff = 500;
+
+        // Experience buff.
         public int ExpBuff
         {
             get => _expBuff;
@@ -15,6 +19,11 @@ namespace Tasker
                 _expBuff = value > 0 ? value : _expBuff;
             }
         }
+
+        /// <summary>
+        /// Set task state.
+        /// </summary>
+        /// <param name="state"> State. </param>
         public void SetState(TaskState state)
         {
             if (state == State)
@@ -50,38 +59,77 @@ namespace Tasker
                     break;
             }
         }
+
+        /// <summary>
+        /// Close task.
+        /// </summary>
         public void Close()
         {
             SetState(TaskState.Closed);
         }
+
+        /// <summary>
+        /// In process task.
+        /// </summary>
         public void Process()
         {
             SetState(TaskState.InProgress);
         }
+
+        /// <summary>
+        /// Open task.
+        /// </summary>
         public void Open()
         {
             SetState(TaskState.Open);
         }
+
+        /// <summary>
+        /// Get responders.
+        /// </summary>
+        /// <returns></returns>
         public List<User> GetResponders()
         {
             return Responders;
         }
+
+        /// <summary>
+        /// Earn experience.
+        /// </summary>
+        /// <param name="user"></param>
         private void EarnExperience(User user)
         {
             user.Experience += _expBuff;
         }
+
+        /// <summary>
+        /// Remove experience.
+        /// </summary>
+        /// <param name="user"></param>
         private void RemoveExperience(User user)
         {
             user.Experience -= _expBuff;
         }
-        //private int _uid;
+
+        /// <summary>
+        /// State enum.
+        /// </summary>
         public enum TaskState
         {
             Open = 0,
             InProgress = 1,
             Closed = 2
         }
+
+        /// <summary>
+        /// List of responders.
+        /// </summary>
         public List<User> Responders { get; set; }
+
+        /// <summary>
+        /// Add responder.
+        /// </summary>
+        /// <param name="user"> Responder. </param>
         public void AddResponder(User user)
         {
             if (!Responders.Contains(user))
@@ -89,18 +137,28 @@ namespace Tasker
                 Responders.Add(user);
             }
         }
+        /// <summary>
+        /// Remove responders.
+        /// </summary>
+        /// <param name="user"> Responder. </param>
         public void RemoveResponder(User user)
         {
             Responders.Remove(user);
         }
+
+        // String name.
         public string Name { get; set; }
+        // String description.
         public string Description { get; set; }
+        // Creation date property.
         public DateTime CreationDate { get; set; }
-        //public DateTime StartTime { get; set; }
-        //public DateTime DeadlineDate { get; set; }
-        //public User Creator { get; set; }
-        //public int UID { get => _uid;}
+        // Task state.
         public TaskState State { get; set; }
+        /// <summary>
+        /// Set name.
+        /// </summary>
+        /// <param name="newName"></param>
+        /// <returns> true if correct, false otherwise. </returns>
         public bool SetName(string newName)
         {
             if (newName.Length < 2 || newName.Length > 30)
@@ -110,6 +168,7 @@ namespace Tasker
             Name = newName;
             return true;
         }
+        // Get string of type.
         public string Type
         {
             get
@@ -137,6 +196,11 @@ namespace Tasker
 
             }
         }
+        /// <summary>
+        /// Check name.
+        /// </summary>
+        /// <param name="name"> String name. </param>
+        /// <returns> true if correct, false otherwise. </returns>
         public static bool CheckName(string name)
         {
             if (name.Length < 2 || name.Length > 30)
@@ -145,6 +209,11 @@ namespace Tasker
             }
             return true;
         }
+        /// <summary>
+        /// Set description.
+        /// </summary>
+        /// <param name="newDescription"> String description. </param>
+        /// <returns> true if correct, false otherwise. </returns>
         public bool SetDescription(string newDescription)
         {
             Description = newDescription;
@@ -162,8 +231,6 @@ namespace Tasker
             }
             State = state;
             CreationDate = DateTime.Now;
-            //StartTime = start;
-            //DeadlineDate = finish;
             Responders = new List<User>();
         }
         public override string ToString()
@@ -171,7 +238,6 @@ namespace Tasker
             return $"Description: {Description}. " +
                                 $"State: {State}. "+
                                 $"Creation: {CreationDate}";
-                                //$"Responders: \n{String.Join(", \n", GetResponders())}\n";
         }
     }
 }

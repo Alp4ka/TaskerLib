@@ -20,12 +20,22 @@ namespace TaskerConsole
         {
             _dbPath = path;
         }
+
+        /// <summary>
+        /// Send command.
+        /// </summary>
+        /// <param name="commandToSend"> SQL command. </param>
         public static void SendCommand(string commandToSend)
         {
             _connection.Open();
             SQLiteCommand command = new SQLiteCommand(commandToSend, _connection);
             _connection.Close();
         }
+
+
+        /// <summary>
+        /// Initialize database.
+        /// </summary>
         public static void InitializeDatabase()
         {
 
@@ -55,11 +65,12 @@ namespace TaskerConsole
             }
         }
         public static string Path {get => _dbPath;}
+
+        /// <summary>
+        /// Read database.
+        /// </summary>
         public static void ReadDataBase()
         {
-            //_users = new List<User>();
-            //_tasks = new List<IAssignable>();
-            //_projects = new List<Project>();
             if (File.Exists(_dbPath))
             {
                 ReadUsers();
@@ -67,6 +78,10 @@ namespace TaskerConsole
                 ReadProjects();
             }
         }
+
+        /// <summary>
+        /// Read projects.
+        /// </summary>
         private static void ReadProjects()
         {
             _connection.Open();
@@ -92,6 +107,10 @@ namespace TaskerConsole
             }
             _connection.Close();
         }
+
+        /// <summary>
+        /// Read all types of tasks.
+        /// </summary>
         private static void ReadListing()
         {
             ReadTasks();
@@ -99,6 +118,10 @@ namespace TaskerConsole
             ReadStoryTasks();
             ReadEpicTasks();
         }
+
+        /// <summary>
+        /// Read all tasks.
+        /// </summary>
         private static void ReadTasks()
         {
             _connection.Open();
@@ -135,6 +158,12 @@ namespace TaskerConsole
             }
             _connection.Close();
         }
+
+        /// <summary>
+        /// Parse responders from string.
+        /// </summary>
+        /// <param name="input"> String withg data. </param>
+        /// <returns> List of responders. </returns>
         private static List<User> ParseResponders(string input)
         {
             if (input is null || String.IsNullOrEmpty(input) || String.IsNullOrWhiteSpace(input) || input == "NULL")
@@ -153,6 +182,12 @@ namespace TaskerConsole
             }
             return result;
         }
+
+        /// <summary>
+        /// Parse tasks from string.
+        /// </summary>
+        /// <param name="input"> String with data. </param>
+        /// <returns> List of tasks. </returns>
         private static List<IAssignable> ParseTasks(string input)
         {
             if(input is null || String.IsNullOrEmpty(input)|| String.IsNullOrWhiteSpace(input) || input == "NULL")
@@ -171,6 +206,11 @@ namespace TaskerConsole
             }
             return result;
         }
+
+
+        /// <summary>
+        /// Read users data.
+        /// </summary>
         private static void ReadUsers()
         {
             _connection.Open();
@@ -196,19 +236,30 @@ namespace TaskerConsole
             }
             _connection.Close();
         }
+
+        /// <summary>
+        /// Reload Database.
+        /// </summary>
         public static void ReloadDB()
         {
             Connection.Close();
             SaveChanges();
-            //InitializeDatabase();
             ReadDataBase();
         }
+
+        /// <summary>
+        /// Save all changes.
+        /// </summary>
         public static void SaveChanges()
         {
             SaveUsers();
             SaveTasks();
             SaveProjects();
         }
+
+        /// <summary>
+        /// Save users.
+        /// </summary>
         private static void SaveUsers()
         {
             SQLiteCommand command;
@@ -227,6 +278,9 @@ namespace TaskerConsole
             _connection.Close();
         }
 
+        /// <summary>
+        /// Save projects.
+        /// </summary>
         private static void SaveProjects()
         {
             SQLiteCommand command;
@@ -244,6 +298,10 @@ namespace TaskerConsole
             }
             _connection.Close();
         }
+
+        /// <summary>
+        /// Save all tasks.
+        /// </summary>
         private static void SaveTasks()
         {
             List<IAssignable> toSave = new List<IAssignable>();
@@ -282,6 +340,12 @@ namespace TaskerConsole
             }
 
         }
+
+        /// <summary>
+        /// Save epictask data.
+        /// </summary>
+        /// <param name="epicTask"></param>
+        /// <param name="id"></param>
         private static void SaveEpicTask(EpicTask epicTask, int id)
         {
             SQLiteCommand command;
@@ -292,6 +356,10 @@ namespace TaskerConsole
             _connection.Close();
             epicTask.ID = id;
         }
+
+        /// <summary>
+        /// Save data about bug.
+        /// </summary>
         private static void SaveBug(Bug bug, int id)
         {
             SQLiteCommand command;
@@ -302,6 +370,10 @@ namespace TaskerConsole
             _connection.Close();
             bug.ID = id;
         }
+
+        /// <summary>
+        /// Save data about task.
+        /// </summary>
         private static void SaveTask(Task task, int id)
         {
             SQLiteCommand command;
@@ -312,6 +384,10 @@ namespace TaskerConsole
             _connection.Close();
             task.ID = id;
         }
+
+        /// <summary>
+        /// Save data about stories.
+        /// </summary>
         private static void SaveStoryTask(StoryTask storyTask, int id)
         {
             SQLiteCommand command;
@@ -322,6 +398,10 @@ namespace TaskerConsole
             _connection.Close();
             storyTask.ID = id;
         }
+
+        /// <summary>
+        /// Read data about bugs.
+        /// </summary>
         private static void ReadBugs()
         {
             _connection.Open();
@@ -358,6 +438,10 @@ namespace TaskerConsole
             _connection.Close();
 
         }
+
+        /// <summary>
+        /// Read story tasks.
+        /// </summary>
         private static void ReadStoryTasks()
         {
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'StoryTasks';", _connection);
@@ -388,6 +472,10 @@ namespace TaskerConsole
             }
             _connection.Close();
         }
+
+        /// <summary>
+        /// Read epic tasks.
+        /// </summary>
         private static void ReadEpicTasks()
         {
             _connection.Open();

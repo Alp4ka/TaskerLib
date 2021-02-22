@@ -17,6 +17,12 @@ namespace Tasker
             {6000, "Angel"},
             {7000, "God"}
         };
+
+        /// <summary>
+        /// Get rank by experience.
+        /// </summary>
+        /// <param name="exp"> Int experience. </param>
+        /// <returns> String rank. </returns>
         public static string GetRankByExp(int exp)
         {
             int[] expStages = ExpToRank.Keys.OrderBy(x=>x).ToArray();
@@ -29,10 +35,8 @@ namespace Tasker
             }
             return ExpToRank[expStages.Last()];
         }
-        /*public static int GenerateUID(IAssignable[] collection)
-        {
-            return collection.Max(x => x.UID) + 1;
-        }*/
+
+        // Get all ranks.
         public static string[] Ranks { get => ExpToRank.OrderBy(x => x.Key).Select(x => x.Value).ToArray(); }
 
     }

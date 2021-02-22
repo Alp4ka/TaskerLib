@@ -4,6 +4,10 @@ namespace Tasker
 {
     public class Bug : BaseTask
     {
+        /// <summary>
+        /// Add responder.
+        /// </summary>
+        /// <param name="user"> User. </param>
         new public void AddResponder(User user)
         {
             if (!Responders.Contains(user))
@@ -18,8 +22,6 @@ namespace Tasker
         public Bug(
             string name,
             string description,
-            /*DateTime start = default(DateTime),
-            DateTime finish = default(DateTime),*/
             TaskState state = TaskState.Open,
             User responder = null) : base(name, description, /*start, finish,*/ state)
         {

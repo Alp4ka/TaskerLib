@@ -9,13 +9,8 @@ namespace Tasker
         string Description { get; set; }
         int ID { get; set; }
         string Type { get; }
-        //DateTime CreationDate { get; set; }
-        //DateTime StartTime { get; set; }
-        //DateTime DeadlineDate { get; set; }
-        //User Creator { get; set; }
         bool SetDescription(string newDescription);
         List<User> GetResponders();
-        //bool SetCreator(User newCreator);
         bool SetName(string newName);
         List<User> Responders { get; set; }
         void AddResponder(User user);

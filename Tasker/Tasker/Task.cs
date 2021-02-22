@@ -4,6 +4,10 @@ namespace Tasker
 {
     public class Task : BaseTask
     {
+        /// <summary>
+        /// Add responder to task.
+        /// </summary>
+        /// <param name="user"></param>
         new public void AddResponder(User user)
         {
             if (!Responders.Contains(user))
@@ -18,10 +22,8 @@ namespace Tasker
         public Task(
             string name,
             string description,
-            /*DateTime start = default(DateTime),
-            DateTime finish = default(DateTime),*/
             TaskState state = TaskState.Open,
-            User responder = null) :base(name, description, /*start, finish,*/ state)
+            User responder = null) :base(name, description, state)
         {
             if(responder != null)
             {

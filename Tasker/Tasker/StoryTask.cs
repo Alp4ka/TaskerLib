@@ -8,8 +8,6 @@ namespace Tasker
         public StoryTask(
             string name,
             string description,
-            /*DateTime start = default(DateTime),
-            DateTime finish = default(DateTime),*/
             TaskState state = TaskState.Open,
             List<User> responders = null) : base(name, description, /*start, finish,*/ state)
         {
@@ -21,6 +19,11 @@ namespace Tasker
                 }
             }
         }
+
+        /// <summary>
+        /// Add responders method.
+        /// </summary>
+        /// <param name="users"> Responders list. </param>
         public void AddResponders(List<User> users)
         {
             foreach(User user in users)
