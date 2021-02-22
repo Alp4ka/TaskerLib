@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework.Controls;
+using Tasker;
 
 namespace TaskManager
 {
@@ -33,13 +34,13 @@ namespace TaskManager
         }
 
 
-        private void RecalculateChildren(MetroPanel mpanel)
+        private void RecalculateChildren(MetroPanel mpanel, int distance=20)
         {
             MetroTile[] children = mpanel.Controls.OfType<MetroTile>().ToArray();
             for(int i =0; i < children.Length; ++i)
             {
                 children[i].Location = new Point((mpanel.Width - children[i].Width) / 2,
-                                                20*(i+1) + i*children[i].Height);
+                                                distance*(i+1) + i*children[i].Height);
             }
         }
         private void RecalculateAll()

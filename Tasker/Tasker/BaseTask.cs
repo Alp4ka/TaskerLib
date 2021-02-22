@@ -95,7 +95,7 @@ namespace Tasker
         }
         public string Name { get; set; }
         public string Description { get; set; }
-        //public DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
         //public DateTime StartTime { get; set; }
         //public DateTime DeadlineDate { get; set; }
         //public User Creator { get; set; }
@@ -161,7 +161,7 @@ namespace Tasker
                 throw new ArgumentException($"Wrong length of description!");
             }
             State = state;
-            //CreationDate = DateTime.Now;
+            CreationDate = DateTime.Now;
             //StartTime = start;
             //DeadlineDate = finish;
             Responders = new List<User>();
@@ -169,7 +169,8 @@ namespace Tasker
         public override string ToString()
         {
             return $"Description: {Description}. " +
-                                $"State: {State}. ";
+                                $"State: {State}. "+
+                                $"Creation: {CreationDate}";
                                 //$"Responders: \n{String.Join(", \n", GetResponders())}\n";
         }
     }

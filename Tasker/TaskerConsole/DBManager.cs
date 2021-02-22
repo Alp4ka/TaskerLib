@@ -361,7 +361,11 @@ namespace TaskerConsole
         private static void ReadStoryTasks()
         {
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'StoryTasks';", _connection);
-            _connection.Open();
+            if(_connection.State != System.Data.ConnectionState.Open)
+            {
+                _connection.Open();
+            }
+            
             using (SQLiteDataReader reader = command.ExecuteReader())
             {
                 foreach (DbDataRecord record in reader)

@@ -85,7 +85,8 @@ namespace Tasker
             return $"[EpicTask] '{Name}'  ID: {ID}. " +
                 //$"SubTasks: {String.Join(", ", GetTasks().Select(x => "[" + x.Name + "]"))}\n" +
                 $"Description: {Description}. " +
-                $"State: {State}. ";
+                $"State: {State}. "+
+                $"Creation: {CreationDate}";
                 //$"Responders: \n{String.Join(", \n", GetResponders())}\n";
         }
     }

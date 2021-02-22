@@ -210,8 +210,11 @@ namespace TaskerConsole
             {
                 List<string> ids = new List<string>();
                 List<string> choice = new List<string>();
-                ids.Add("create_new");
-                choice.Add("<Create New>");
+                if (Projects.Count <= 3)
+                {
+                    ids.Add("create_new");
+                    choice.Add("<Create New>");
+                }
                 ids.AddRange(Projects.Select(x => x.ID.ToString()).ToArray());
                 choice.AddRange(Projects.Select(x => x.Type + " " + x.Name + " ID:" + x.ID.ToString()).ToArray());
                 var menu = Engine.GenerateIDsForMenuItems(ids.ToArray(), choice.ToArray());
