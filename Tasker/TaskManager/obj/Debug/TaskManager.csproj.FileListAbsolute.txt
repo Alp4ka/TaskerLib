@@ -11,3 +11,4 @@ C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.csproj.CopyComplete
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.exe
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.pdb
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.MainForm.resources
