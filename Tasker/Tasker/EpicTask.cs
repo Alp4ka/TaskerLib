@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Tasker
 {
-    public class EpicTask:BaseTask
+    public class EpicTask : BaseTask
     {
         private List<IAssignable> _subTasks;
 
@@ -29,7 +29,7 @@ namespace Tasker
             }
             return assignables;
         }
-        
+
         /// <summary>
         /// Overrididng addresponder method.
         /// </summary>
@@ -53,7 +53,7 @@ namespace Tasker
         new public List<User> GetResponders()
         {
             var result = new List<User>();
-            foreach(var task in _subTasks)
+            foreach (var task in _subTasks)
             {
                 result.AddRange(task.GetResponders());
             }
@@ -71,7 +71,7 @@ namespace Tasker
             {
                 throw new ArgumentException($"Task is already in list.");
             }
-            if(task is EpicTask || task is Bug)
+            if (task is EpicTask || task is Bug)
             {
                 throw new ArgumentException($"Unable to add task with type {task.GetType()}");
             }
@@ -84,7 +84,7 @@ namespace Tasker
         /// <param name="tasks"> List of tasks. </param>
         public void AddTasks(List<IAssignable> tasks)
         {
-            foreach(IAssignable task in tasks)
+            foreach (IAssignable task in tasks)
             {
                 AddTask(task);
             }
@@ -104,9 +104,9 @@ namespace Tasker
             List<IAssignable> tasks = null) : base(name, description, /*start, finish,*/ state)
         {
             _subTasks = new List<IAssignable>();
-            if(tasks != null)
+            if (tasks != null)
             {
-                foreach(IAssignable task in tasks)
+                foreach (IAssignable task in tasks)
                 {
                     AddTask(task);
                 }
@@ -116,7 +116,7 @@ namespace Tasker
         {
             return $"[EpicTask] '{Name}'  ID: {ID}. " +
                 $"Description: {Description}. " +
-                $"State: {State}. "+
+                $"State: {State}. " +
                 $"Creation: {CreationDate}";
         }
     }

@@ -15,7 +15,7 @@ namespace TaskerConsole
         public static List<User> _users = new List<User>();
         public static List<Project> _projects = new List<Project>();
         public static List<IAssignable> _tasks = new List<IAssignable>();
-        public static SQLiteConnection Connection {get=>_connection;}
+        public static SQLiteConnection Connection { get => _connection; }
         public static void SetPath(string path)
         {
             _dbPath = path;
@@ -64,7 +64,7 @@ namespace TaskerConsole
                 _connection.Close();
             }
         }
-        public static string Path {get => _dbPath;}
+        public static string Path { get => _dbPath; }
 
         /// <summary>
         /// Read database.
@@ -190,7 +190,7 @@ namespace TaskerConsole
         /// <returns> List of tasks. </returns>
         private static List<IAssignable> ParseTasks(string input)
         {
-            if(input is null || String.IsNullOrEmpty(input)|| String.IsNullOrWhiteSpace(input) || input == "NULL")
+            if (input is null || String.IsNullOrEmpty(input) || String.IsNullOrWhiteSpace(input) || input == "NULL")
             {
                 return new List<IAssignable>();
             }
@@ -433,7 +433,7 @@ namespace TaskerConsole
                         }
                     }
 
-                } 
+                }
             }
             _connection.Close();
 
@@ -445,11 +445,11 @@ namespace TaskerConsole
         private static void ReadStoryTasks()
         {
             SQLiteCommand command = new SQLiteCommand("SELECT * FROM 'StoryTasks';", _connection);
-            if(_connection.State != System.Data.ConnectionState.Open)
+            if (_connection.State != System.Data.ConnectionState.Open)
             {
                 _connection.Open();
             }
-            
+
             using (SQLiteDataReader reader = command.ExecuteReader())
             {
                 foreach (DbDataRecord record in reader)

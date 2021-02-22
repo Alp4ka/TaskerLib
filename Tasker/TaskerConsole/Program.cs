@@ -22,7 +22,7 @@ namespace TaskerConsole
             DBManager.InitializeDatabase();
             DBManager.ReadDataBase();
 
-            Engine.DrawIntro(new string[] { "Trello Killer", "v 1.0", " ", "To move back use <ESC>","To use autosave, use button <Exit> instead of standart button.","Any <Key> to continue..." });
+            Engine.DrawIntro(new string[] { "Trello Killer", "v 1.0", " ", "To move back use <ESC>", "To use autosave, use button <Exit> instead of standart button.", "Any <Key> to continue..." });
             while (true)
             {
                 var menu = Engine.GenerateIDsForMenuItems(new string[] { "my_projects", "users", "exit" }, new string[] { "My Projects", "Users", "Exit" });
@@ -294,7 +294,7 @@ namespace TaskerConsole
                 ids.Add("create_new");
                 choice.Add("<New Task>");
                 ids.AddRange(tasks.Select(x => x.ToString()).ToArray());
-                choice.AddRange(tasks.Select(x => x.Type+ " " + x.Name + $" ID: {x.ID}. Status: {(x as BaseTask).State}").ToArray());
+                choice.AddRange(tasks.Select(x => x.Type + " " + x.Name + $" ID: {x.ID}. Status: {(x as BaseTask).State}").ToArray());
                 ids.Add("delete_current");
                 choice.Add("<Delete>");
                 var menu = Engine.GenerateIDsForMenuItems(ids.ToArray(), choice.ToArray());
@@ -349,7 +349,7 @@ namespace TaskerConsole
         {
             while (true)
             {
-                var menu = Engine.GenerateIDsForMenuItems(new string[] { "open", "in_progress", "closed"}, new string[] { "Open", "In Progress", "Closed"});
+                var menu = Engine.GenerateIDsForMenuItems(new string[] { "open", "in_progress", "closed" }, new string[] { "Open", "In Progress", "Closed" });
                 string result = Engine.Menu(menu, title: $"{task.Name} Status Change");
                 switch (result)
                 {
@@ -376,7 +376,7 @@ namespace TaskerConsole
         /// <param name="description"> String with description. </param>
         /// <param name="isPorject"> Bool shows it's task or project. </param>
         /// <returns></returns>
-        static IAssignable SetTypeDialog(string name, string description, bool isPorject=true)
+        static IAssignable SetTypeDialog(string name, string description, bool isPorject = true)
         {
             while (true)
             {
@@ -528,7 +528,7 @@ namespace TaskerConsole
         {
             while (true)
             {
-                Dictionary<string, string> menu = Engine.GenerateIDsForMenuItems(new string[] { "remove"}, new string[] { "<Remove>"});
+                Dictionary<string, string> menu = Engine.GenerateIDsForMenuItems(new string[] { "remove" }, new string[] { "<Remove>" });
                 string result = Engine.ScrollableMenu(menu, 10, title: $"Responder {responder} in {task.Type} {task.Name}:");
                 switch (result)
                 {
@@ -578,7 +578,7 @@ namespace TaskerConsole
                 {
                     return;
                 }
-                
+
             }
         }
         /// <summary>
@@ -627,7 +627,7 @@ namespace TaskerConsole
                 Dictionary<string, string> menu;
                 if (task is EpicTask)
                 {
-                    menu = Engine.GenerateIDsForMenuItems(new string[] {"show_tasks", "state", "delete" }, new string[] {"Tasks", "Set State","<Delete>" });
+                    menu = Engine.GenerateIDsForMenuItems(new string[] { "show_tasks", "state", "delete" }, new string[] { "Tasks", "Set State", "<Delete>" });
                 }
                 else
                 {
@@ -647,14 +647,14 @@ namespace TaskerConsole
                         SetStateDialog(task);
                         break;
                     case "delete":
-                        foreach(IAssignable temp in Tasks)
+                        foreach (IAssignable temp in Tasks)
                         {
-                            if(temp is EpicTask)
+                            if (temp is EpicTask)
                             {
                                 (temp as EpicTask).RemoveTask(task);
                             }
                         }
-                        foreach(Project project in Projects)
+                        foreach (Project project in Projects)
                         {
                             project.RemoveTask(task);
                         }

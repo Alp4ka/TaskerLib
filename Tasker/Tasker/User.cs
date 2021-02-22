@@ -13,7 +13,7 @@ namespace Tasker
         // User experience.
         public int Experience { get; set; }
         // User rank.
-        public string Rank { get=> Utils.GetRankByExp(Experience); }
+        public string Rank { get => Utils.GetRankByExp(Experience); }
         // User fullname.
         public string Fullname { get => $"{Name} {Surname}"; }
 
@@ -24,7 +24,7 @@ namespace Tasker
         /// <returns> true if correct, false otherwise. </returns>
         public bool SetName(string newName)
         {
-            if(newName.Length < 2 || newName.Length > 30)
+            if (newName.Length < 2 || newName.Length > 30)
             {
                 return false;
             }

@@ -18,8 +18,6 @@ namespace TaskManager
         public static List<User> Users = DBManager._users;
         public static List<Project> Projects = DBManager._projects;
         public static List<IAssignable> Tasks = DBManager._tasks;
-        //delegate void UsersHandler(MetroPanel mpanel, int distance);
-        //event UsersHandler UsersChanged;
 
         public MainForm()
         {
@@ -75,7 +73,7 @@ namespace TaskManager
                 delBtn.Text = $"-";
                 delBtn.Width = 50;
                 delBtn.Height = 50;
-                delBtn.Location = new Point(usersPanel.Width-50, 0);
+                delBtn.Location = new Point(usersPanel.Width - 50, 0);
                 delBtn.Click += DeleteProjectByClick;
                 button.Controls.Add(delBtn);
 
@@ -99,7 +97,7 @@ namespace TaskManager
         {
             usersPanel.Controls.Clear();
             // user buttons.
-            foreach(User user in Users)
+            foreach (User user in Users)
             {
                 MetroTile button = new MetroTile();
                 button.TextAlign = ContentAlignment.MiddleLeft;
@@ -117,7 +115,7 @@ namespace TaskManager
                 delBtn.Style = MetroFramework.MetroColorStyle.Red;
                 delBtn.Text = $"-";
                 delBtn.Width = 50;
-                delBtn.Location = new Point(button.Width-delBtn.Width, 0);
+                delBtn.Location = new Point(button.Width - delBtn.Width, 0);
                 delBtn.Height = 50;
                 delBtn.Click += DeleteUserByClick;
                 button.Controls.Add(delBtn);
@@ -128,10 +126,10 @@ namespace TaskManager
         {
             // Name = ID+'R'
             int id;
-            if(int.TryParse((sender as Control).Name.Replace("R", ""), out id))
+            if (int.TryParse((sender as Control).Name.Replace("R", ""), out id))
             {
                 User user = GetUserByID(id);
-                if(user == default)
+                if (user == default)
                 {
                     return;
                 }

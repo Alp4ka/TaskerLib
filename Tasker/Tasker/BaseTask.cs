@@ -33,7 +33,7 @@ namespace Tasker
             switch (state)
             {
                 case TaskState.Open:
-                    if(State == TaskState.Closed)
+                    if (State == TaskState.Closed)
                     {
                         foreach (User user in Responders)
                         {
@@ -48,7 +48,7 @@ namespace Tasker
                 case TaskState.Closed:
                     State = state;
                     List<User> responders = this.GetResponders();
-                    if(this is EpicTask)
+                    if (this is EpicTask)
                     {
                         responders = (this as EpicTask).GetResponders();
                     }
@@ -173,11 +173,11 @@ namespace Tasker
         {
             get
             {
-                if(this is EpicTask)
+                if (this is EpicTask)
                 {
                     return "[EpicTask]";
                 }
-                else if(this is Bug)
+                else if (this is Bug)
                 {
                     return "[Bug]";
                 }
@@ -236,7 +236,7 @@ namespace Tasker
         public override string ToString()
         {
             return $"Description: {Description}. " +
-                                $"State: {State}. "+
+                                $"State: {State}. " +
                                 $"Creation: {CreationDate}";
         }
     }

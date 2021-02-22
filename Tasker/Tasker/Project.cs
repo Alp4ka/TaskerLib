@@ -18,7 +18,7 @@ namespace Tasker
             get
             {
                 List<IAssignable> temp = GetAllTasks();
-                if(temp.Count == 0)
+                if (temp.Count == 0)
                 {
                     return 0;
                 }
@@ -27,7 +27,7 @@ namespace Tasker
             }
         }
         private List<IAssignable> _tasks;
-        
+
         /// <summary>
         /// Add task.
         /// </summary>
@@ -46,9 +46,9 @@ namespace Tasker
         /// </summary>
         /// <param name="state"> Of state. </param>
         /// <returns> List of tasks. </returns>
-        public List<IAssignable> GetTasks(BaseTask.TaskState? state=null)
+        public List<IAssignable> GetTasks(BaseTask.TaskState? state = null)
         {
-            if(state == null)
+            if (state == null)
             {
                 return _tasks;
             }
@@ -70,9 +70,9 @@ namespace Tasker
         public List<IAssignable> GetAllTasks()
         {
             List<IAssignable> result = new List<IAssignable>();
-            foreach(IAssignable task in _tasks)
+            foreach (IAssignable task in _tasks)
             {
-                if(task is EpicTask)
+                if (task is EpicTask)
                 {
                     result.Add(task);
                     result.AddRange((task as EpicTask).GetTasks());
@@ -146,9 +146,9 @@ namespace Tasker
             Description = newDescription;
             return true;
         }
-        
 
-        public Project(string name, string description, List <IAssignable> tasks = null)
+
+        public Project(string name, string description, List<IAssignable> tasks = null)
         {
             _tasks = new List<IAssignable>();
             if (!SetName(name))

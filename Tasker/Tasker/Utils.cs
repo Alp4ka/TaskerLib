@@ -25,10 +25,10 @@ namespace Tasker
         /// <returns> String rank. </returns>
         public static string GetRankByExp(int exp)
         {
-            int[] expStages = ExpToRank.Keys.OrderBy(x=>x).ToArray();
-            foreach(int curStage in expStages)
+            int[] expStages = ExpToRank.Keys.OrderBy(x => x).ToArray();
+            foreach (int curStage in expStages)
             {
-                if(exp < curStage)
+                if (exp < curStage)
                 {
                     return ExpToRank[curStage];
                 }
@@ -40,5 +40,5 @@ namespace Tasker
         public static string[] Ranks { get => ExpToRank.OrderBy(x => x.Key).Select(x => x.Value).ToArray(); }
 
     }
-    
+
 }

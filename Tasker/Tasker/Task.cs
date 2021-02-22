@@ -23,13 +23,13 @@ namespace Tasker
             string name,
             string description,
             TaskState state = TaskState.Open,
-            User responder = null) :base(name, description, state)
+            User responder = null) : base(name, description, state)
         {
-            if(responder != null)
+            if (responder != null)
             {
                 Responders.Add(responder);
             }
-            
+
         }
         public override string ToString()
         {
