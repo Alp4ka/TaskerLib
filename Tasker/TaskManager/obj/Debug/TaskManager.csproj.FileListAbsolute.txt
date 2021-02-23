@@ -4,7 +4,6 @@ C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\bin
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\bin\Debug\MetroFramework.dll
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\bin\Debug\MetroFramework.Fonts.dll
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.csprojAssemblyReference.cache
-C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.Form1.resources
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.Properties.Resources.resources
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.csproj.GenerateResource.cache
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.csproj.CoreCompileInputs.cache
@@ -30,3 +29,8 @@ C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\bin
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\bin\Debug\EntityFramework.xml
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.UserPage.resources
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\bin\Debug\ko-KP\TaskManager.resources.dll
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.ProjectView.resources
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.ProjectView.ko-KP.resources
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\ko-KP\TaskManager.resources.dll
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.TaskCreationView.resources

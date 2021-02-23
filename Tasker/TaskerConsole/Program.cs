@@ -331,14 +331,12 @@ namespace TaskerConsole
         static void CreateTask(Project parent)
         {
             string name, description;
-            //BaseTask.TaskState state;
             name = SetTaskNameDialog();
             description = SetTaskDescriptionDialog();
             IAssignable task = SetTypeDialog(name, description);
             Tasks.Add(task);
             parent.AddTask(task);
             DBManager.SaveChanges();
-            //state = SetStateDialog(task);
         }
         /// <summary>
         /// Set task dialog.

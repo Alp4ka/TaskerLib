@@ -18,7 +18,7 @@ namespace TaskManager
         public static List<User> Users = DBManager._users;
         public static List<Project> Projects = DBManager._projects;
         public static List<IAssignable> Tasks = DBManager._tasks;
-
+        private static int _maxProjects = 3;
         public MainForm()
         {
             DBManager.SetPath(@".\db.db");
@@ -30,15 +30,15 @@ namespace TaskManager
             InitializeUsersView();
             InitializeProjectsView();
         }
-        public User GetUserByID(int id)
+        public static User GetUserByID(int id)
         {
             return Users.Find(x => x.ID == id);
         }
-        public Project GetProjectByID(int id)
+        public static Project GetProjectByID(int id)
         {
             return Projects.Find(x => x.ID == id);
         }
-        public IAssignable GetTaskByID(int id)
+        public static IAssignable GetTaskByID(int id)
         {
             return Tasks.Find(x => x.ID == id);
         }
@@ -60,7 +60,9 @@ namespace TaskManager
                 button.Text = $"{project.ID}: {project.Name}";
                 button.Width = usersPanel.Width;
                 button.Height = 50;
+                button.Theme = MetroFramework.MetroThemeStyle.Dark;
                 button.Controls.Add(mpb);
+                button.Click += ProjectButtonClick;
                 mpb.Location = new Point(button.Width - mpb.Width, 0);
                 projectsPanel.Controls.Add(button);
 
@@ -73,6 +75,7 @@ namespace TaskManager
                 delBtn.Text = $"-";
                 delBtn.Width = 50;
                 delBtn.Height = 50;
+                delBtn.Theme = MetroFramework.MetroThemeStyle.Dark;
                 delBtn.Location = new Point(usersPanel.Width - 50, 0);
                 delBtn.Click += DeleteProjectByClick;
                 button.Controls.Add(delBtn);
@@ -80,7 +83,17 @@ namespace TaskManager
             }
             RecalculateChildren(projectsPanel, 10);
         }
-        public void ShowUserInfo(User user)
+        public void ProjectButtonClick(object sender, EventArgs e)
+        {
+            ShowProjectInfo(GetProjectByID(int.Parse((sender as Control).Name)));
+        }
+        private void ShowProjectInfo(Project project)
+        {
+            ProjectView pv = new ProjectView(project);
+            pv.ShowDialog();
+            InitializeProjectsView();
+        }
+        private void ShowUserInfo(User user)
         {
             UserPage up = new UserPage();
             up.userNameLabel.Text = user.Name;
@@ -105,6 +118,7 @@ namespace TaskManager
                 button.Text = $"{user.ID}: {user.Fullname}";
                 button.Width = usersPanel.Width;
                 button.Height = 50;
+                button.Theme = MetroFramework.MetroThemeStyle.Dark;
                 button.Click += UserButtonClick;
                 usersPanel.Controls.Add(button);
 
@@ -115,6 +129,7 @@ namespace TaskManager
                 delBtn.Style = MetroFramework.MetroColorStyle.Red;
                 delBtn.Text = $"-";
                 delBtn.Width = 50;
+                delBtn.Theme = MetroFramework.MetroThemeStyle.Dark;
                 delBtn.Location = new Point(button.Width - delBtn.Width, 0);
                 delBtn.Height = 50;
                 delBtn.Click += DeleteUserByClick;
@@ -226,6 +241,11 @@ namespace TaskManager
 
         private void newProjectButton_Click(object sender, EventArgs e)
         {
+            if(Projects.Count >= _maxProjects)
+            {
+                warningProj.Text = $"Too much projects ({Projects.Count}/{_maxProjects})!";
+                return;
+            }
             if (!Project.CheckName(newProjectNameTb.Text))
             {
                 warningProj.Text = "Wrong value for project name!";

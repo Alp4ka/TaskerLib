@@ -90,6 +90,7 @@
             this.exitButton.TabIndex = 4;
             this.exitButton.Text = "Exit";
             this.exitButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.exitButton.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
             // 
             // usersButton
@@ -100,6 +101,7 @@
             this.usersButton.TabIndex = 3;
             this.usersButton.Text = "Users";
             this.usersButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.usersButton.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.usersButton.Click += new System.EventHandler(this.usersButton_Click);
             // 
             // projectsButton
@@ -110,6 +112,7 @@
             this.projectsButton.TabIndex = 2;
             this.projectsButton.Text = "Projects";
             this.projectsButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.projectsButton.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.projectsButton.Click += new System.EventHandler(this.projectsButton_Click);
             // 
             // tabControl
@@ -122,7 +125,7 @@
             this.tabControl.Controls.Add(this.usersPage);
             this.tabControl.Location = new System.Drawing.Point(0, 63);
             this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 1;
+            this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(799, 387);
             this.tabControl.TabIndex = 0;
             this.tabControl.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -273,6 +276,7 @@
             this.createNewUserButton.TabIndex = 2;
             this.createNewUserButton.Text = "Create New";
             this.createNewUserButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.createNewUserButton.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.createNewUserButton.Click += new System.EventHandler(this.createNewUserButton_Click);
             // 
             // metroPanel2
@@ -360,6 +364,7 @@
             this.newProjectButton.TabIndex = 2;
             this.newProjectButton.Text = "Create New";
             this.newProjectButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.newProjectButton.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.newProjectButton.Click += new System.EventHandler(this.newProjectButton_Click);
             // 
             // metroLabel3
