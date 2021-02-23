@@ -150,8 +150,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="exitIco.png" />
-    <None Include="deleteIco.png" />
     <Content Include="MetroFramework.txt" />
   </ItemGroup>
   <ItemGroup>

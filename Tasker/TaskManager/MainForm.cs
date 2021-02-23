@@ -15,6 +15,7 @@ namespace TaskManager
         public static List<User> Users = DBManager._users;
         // Projects.
         public static List<Project> Projects = DBManager._projects;
+        // Tasks.
         public static List<IAssignable> Tasks = DBManager._tasks;
         private static int _maxProjects = 3;
         public MainForm()
@@ -28,18 +29,39 @@ namespace TaskManager
             InitializeUsersView();
             InitializeProjectsView();
         }
+
+        /// <summary>
+        /// Get user by id.
+        /// </summary>
+        /// <param name="id"> Id. </param>
+        /// <returns> User. </returns>
         public static User GetUserByID(int id)
         {
             return Users.Find(x => x.ID == id);
         }
+
+        /// <summary>
+        /// Get project by id.
+        /// </summary>
+        /// <param name="id"> Id. </param>
+        /// <returns> Project. </returns>
         public static Project GetProjectByID(int id)
         {
             return Projects.Find(x => x.ID == id);
         }
+
+        /// <summary>
+        /// Get task by id.
+        /// </summary>
+        /// <param name="id"> Id</param>
+        /// <returns> Task. </returns>
         public static IAssignable GetTaskByID(int id)
         {
             return Tasks.Find(x => x.ID == id);
         }
+        /// <summary>
+        /// Init project view.
+        /// </summary>
         public void InitializeProjectsView()
         {
             projectsPanel.Controls.Clear();
@@ -81,16 +103,29 @@ namespace TaskManager
             }
             RecalculateChildren(projectsPanel, 10);
         }
+        /// <summary>
+        /// Click on project button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void ProjectButtonClick(object sender, EventArgs e)
         {
             ShowProjectInfo(GetProjectByID(int.Parse((sender as Control).Name)));
         }
+        /// <summary>
+        /// Show pooject info.
+        /// </summary>
+        /// <param name="project"></param>
         private void ShowProjectInfo(Project project)
         {
             ProjectView pv = new ProjectView(project);
             pv.ShowDialog();
             InitializeProjectsView();
         }
+        /// <summary>
+        /// Show user info.
+        /// </summary>
+        /// <param name="user"></param>
         private void ShowUserInfo(User user)
         {
             UserPage up = new UserPage();
@@ -100,10 +135,18 @@ namespace TaskManager
             up.userRankLabel.Text = user.Rank;
             up.ShowDialog();
         }
+        /// <summary>
+        /// Clcik on user button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void UserButtonClick(object sender, EventArgs e)
         {
             ShowUserInfo(GetUserByID(int.Parse((sender as Control).Name)));
         }
+        /// <summary>
+        /// Initialize user view.
+        /// </summary>
         public void InitializeUsersView()
         {
             usersPanel.Controls.Clear();
@@ -135,6 +178,12 @@ namespace TaskManager
             }
             RecalculateChildren(usersPanel, 10);
         }
+
+        /// <summary>
+        /// Delete user by click.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteUserByClick(object sender, EventArgs e)
         {
             // Name = ID+'R'
@@ -158,6 +207,12 @@ namespace TaskManager
                 return;
             }
         }
+
+        /// <summary>
+        /// Delete project ny click.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteProjectByClick(object sender, EventArgs e)
         {
             // Name = ID+'R'
@@ -182,6 +237,11 @@ namespace TaskManager
             }
         }
 
+        /// <summary>
+        /// Recalculate children.
+        /// </summary>
+        /// <param name="mpanel"></param>
+        /// <param name="distance"></param>
         private void RecalculateChildren(MetroPanel mpanel, int distance = 20)
         {
             MetroTile[] children = mpanel.Controls.OfType<MetroTile>().ToArray();
@@ -192,15 +252,29 @@ namespace TaskManager
             }
         }
 
+        /// <summary>
+        /// CLick on projects tab.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void projectsButton_Click(object sender, EventArgs e)
         {
             tabControl.SelectedTab = projectsPage;
         }
 
+        /// <summary>
+        /// Click on exit.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exitButton_Click(object sender, EventArgs e)
         {
             CloseForm();
         }
+
+        /// <summary>
+        /// Clsoe form.
+        /// </summary>
         private void CloseForm()
         {
             DBManager.Connection.Close();
@@ -208,11 +282,21 @@ namespace TaskManager
             Environment.Exit(0);
         }
 
+        /// <summary>
+        /// Click on users tab.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void usersButton_Click(object sender, EventArgs e)
         {
             tabControl.SelectedTab = usersPage;
         }
 
+        /// <summary>
+        /// Create new user.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void createNewUserButton_Click(object sender, EventArgs e)
         {
             if (!User.CheckName(newUserNameTb.Text))
@@ -232,11 +316,21 @@ namespace TaskManager
             InitializeUsersView();
         }
 
+        /// <summary>
+        /// Form closing event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             CloseForm();
         }
 
+        /// <summary>
+        /// New project button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void newProjectButton_Click(object sender, EventArgs e)
         {
             if (Projects.Count >= _maxProjects)
@@ -256,11 +350,21 @@ namespace TaskManager
             InitializeProjectsView();
         }
 
+        /// <summary>
+        /// Control exit button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void controlExitButton_Click(object sender, EventArgs e)
         {
             CloseForm();
         }
 
+        /// <summary>
+        /// Click on roll up button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void rollUpButton_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;

@@ -52,6 +52,12 @@ namespace TaskManager
             ReloadResponders();
             RecalculateAll();
         }
+
+        /// <summary>
+        /// Get color by task type.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
         private Color TaskColorByContext(IAssignable task)
         {
             if (task is Bug)
@@ -75,6 +81,10 @@ namespace TaskManager
                 return Color.Gray;
             }
         }
+
+        /// <summary>
+        /// Reload responders.
+        /// </summary>
         private void ReloadResponders()
         {
             respondersPanel.Controls.Clear();
@@ -108,12 +118,23 @@ namespace TaskManager
                 usersPanel.Controls.Add(button);
             }
         }
+
+
+        /// <summary>
+        /// Event tile mouse down handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TileMouseDown(object sender, MouseEventArgs e)
         {
             click = true;
         }
 
-
+        /// <summary>
+        /// Recalculate children.
+        /// </summary>
+        /// <param name="mpanel"></param>
+        /// <param name="distance"></param>
         private void RecalculateChildren(MetroPanel mpanel, int distance = 20)
         {
             MetroTile[] children = mpanel.Controls.OfType<MetroTile>().ToArray();
@@ -123,6 +144,10 @@ namespace TaskManager
                                                 distance * (i) + i * children[i].Height);
             }
         }
+
+        /// <summary>
+        /// Recalculate all panels.
+        /// </summary>
         private void RecalculateAll()
         {
             foreach (var panel in Controls.OfType<MetroPanel>())
@@ -130,6 +155,12 @@ namespace TaskManager
                 RecalculateChildren(panel);
             }
         }
+
+        /// <summary>
+        /// Tile mouse up event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TileMouseUp(object sender, MouseEventArgs e)
         {
             Cursor = Cursors.Default;
@@ -167,6 +198,11 @@ namespace TaskManager
             click = false;
         }
 
+        /// <summary>
+        /// Remove button click.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void removeFromBtn_Click(object sender, EventArgs e)
         {
             if (_parent is Project)
@@ -183,6 +219,11 @@ namespace TaskManager
             }
         }
 
+        /// <summary>
+        /// Show tasks button click.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void showTasksBtn_Click(object sender, EventArgs e)
         {
             if (_task is EpicTask)

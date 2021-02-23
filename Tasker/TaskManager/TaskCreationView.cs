@@ -19,6 +19,7 @@ namespace TaskManager
         {
             InitializeComponent();
         }
+
         public TaskCreationView(Project project, BaseTask.TaskState state) : this()
         {
             _mode = Mode.Project;
@@ -36,6 +37,11 @@ namespace TaskManager
             typeBox.Items.AddRange(_comboView);
         }
 
+        /// <summary>
+        /// Submit button click.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void submitBtn_Click(object sender, EventArgs e)
         {
             if (!BaseTask.CheckName(nameTb.Text))

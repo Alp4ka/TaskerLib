@@ -19,6 +19,7 @@ namespace TaskManager
         {
             InitializeComponent();
         }
+
         public ProjectView(Project project) : this()
         {
             _project = project;
@@ -41,6 +42,10 @@ namespace TaskManager
             ReloadTasks();
             RecalculateAll();
         }
+
+        /// <summary>
+        /// Reloads tasks.
+        /// </summary>
         private void ReloadTasks()
         {
             openPanel.Controls.Clear();
@@ -85,6 +90,12 @@ namespace TaskManager
                 }
             }
         }
+
+        /// <summary>
+        /// Updates view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowTaskView(object sender, System.EventArgs e)
         {
             object parent;
@@ -102,6 +113,12 @@ namespace TaskManager
             ReloadTasks();
             RecalculateAll();
         }
+
+        /// <summary>
+        /// Gets color by task type.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
         private Color TaskColorByContext(IAssignable task)
         {
             if (task is Bug)
@@ -125,12 +142,22 @@ namespace TaskManager
                 return Color.Gray;
             }
         }
+
+        /// <summary>
+        /// Event mouse down handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TileMouseDown(object sender, MouseEventArgs e)
         {
             click = true;
         }
 
-
+        /// <summary>
+        /// Recalculates children.
+        /// </summary>
+        /// <param name="mpanel"></param>
+        /// <param name="distance"></param>
         private void RecalculateChildren(MetroPanel mpanel, int distance = 20)
         {
             MetroTile[] children = mpanel.Controls.OfType<MetroTile>().ToArray();
@@ -140,6 +167,10 @@ namespace TaskManager
                                                 distance * (i) + i * children[i].Height);
             }
         }
+
+        /// <summary>
+        /// Recalculates panels.
+        /// </summary>
         private void RecalculateAll()
         {
             if (_project != null)
@@ -152,6 +183,12 @@ namespace TaskManager
                 RecalculateChildren(panel);
             }
         }
+
+        /// <summary>
+        /// Event mouse up handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TileMouseUp(object sender, MouseEventArgs e)
         {
             Cursor = Cursors.Default;
@@ -191,6 +228,11 @@ namespace TaskManager
             click = false;
         }
 
+        /// <summary>
+        /// Event mouse move handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TileMouseMove(object sender, MouseEventArgs e)
         {
 
@@ -212,33 +254,60 @@ namespace TaskManager
             }
         }
 
+        /// <summary>
+        /// Roll up button click.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void rollUpButton_Click(object sender, System.EventArgs e)
         {
-            this.WindowState = FormWindowState.Minimized;
+            WindowState = FormWindowState.Minimized;
         }
 
+        /// <summary>
+        /// Control exit button click.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void controlExitButton_Click(object sender, System.EventArgs e)
         {
             CloseForm();
         }
+
+        /// <summary>
+        /// Close form.
+        /// </summary>
         private void CloseForm()
         {
             DBManager.Connection.Close();
             DBManager.SaveChanges();
             this.Close();
         }
+
+        /// <summary>
+        /// Add task.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="project"></param>
         private void AddTask(BaseTask.TaskState state, Project project)
         {
             TaskCreationView tcv = new TaskCreationView(project, state);
             tcv.ShowDialog();
             DBManager.SaveChanges();
         }
+
+        /// <summary>
+        /// Add task.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="epicTask"></param>
         private void AddTask(BaseTask.TaskState state, EpicTask epicTask)
         {
             TaskCreationView tcv = new TaskCreationView(epicTask, state);
             tcv.ShowDialog();
             DBManager.SaveChanges();
         }
+
         /// <summary>
         /// Просто не смотрите на эти ифы.
         /// </summary>
