@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using MetroFramework.Controls;
 using Tasker;
+using System.Collections.Generic;
 using TaskerConsole;
 
 namespace TaskManager
@@ -10,6 +11,7 @@ namespace TaskManager
     public partial class ProjectView : MetroFramework.Forms.MetroForm
     {
         private Project _project;
+        private EpicTask _epicTask;
         private bool click = false;
         private Color _originalColor;
         private Color _pickColor;
@@ -28,13 +30,32 @@ namespace TaskManager
             ReloadTasks();
             RecalculateAll();
         }
+        public ProjectView(EpicTask epic) : this()
+        {
+            _epicTask = epic;
+            Text = epic.Name;
+            _originalColor = Color.FromArgb(22, 22, 22);
+            _pickColor = Color.FromArgb(_originalColor.R + 10,
+                                   _originalColor.G + 10,
+                                   _originalColor.B + 10);
+            ReloadTasks();
+            RecalculateAll();
+        }
         private void ReloadTasks()
         {
             openPanel.Controls.Clear();
             progressPanel.Controls.Clear();
             closedPanel.Controls.Clear();
-            var tasks = _project.GetTasks();
-            progressBar.Value = (int)_project.Percentage;
+            List<IAssignable> tasks;
+            if (_epicTask != null)
+            {
+                tasks = _epicTask.GetTasks();
+            }
+            else
+            {
+                progressBar.Value = (int)_project.Percentage;
+                tasks = _project.GetTasks();
+            }
             foreach (IAssignable task in tasks)
             {
                 MetroTile button = new MetroTile();
@@ -46,6 +67,7 @@ namespace TaskManager
                 button.MouseDown += TileMouseDown;
                 button.MouseUp += TileMouseUp;
                 button.MouseMove += TileMouseMove;
+                button.Click += ShowTaskView;
                 button.Width = openPanel.Width;
                 button.Height = 50;
                 button.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -62,6 +84,23 @@ namespace TaskManager
                         break;
                 }
             }
+        }
+        private void ShowTaskView(object sender, System.EventArgs e)
+        {
+            object parent;
+            if(_epicTask == null)
+            {
+                parent = _project;
+            }
+            else
+            {
+                parent = _epicTask;
+            }
+            var tv = new TaskView(MainForm.GetTaskByID(int.Parse((sender as Control).Name)), parent);
+            tv.ShowDialog();
+            DBManager.SaveChanges();
+            ReloadTasks();
+            RecalculateAll();
         }
         private Color TaskColorByContext(IAssignable task)
         {
@@ -103,7 +142,11 @@ namespace TaskManager
         }
         private void RecalculateAll()
         {
-            progressBar.Value = (int)_project.Percentage;
+            if(_project != null)
+            {
+                progressBar.Value = (int)_project.Percentage;
+            }
+            
             foreach (var panel in Controls.OfType<MetroPanel>().ToArray())
             {
                 RecalculateChildren(panel);
@@ -136,6 +179,7 @@ namespace TaskManager
                                 (task as BaseTask).SetState(BaseTask.TaskState.Closed);
                                 break;
                         }
+                        ReloadTasks();
                         RecalculateAll();
                         click = false;
                         return;
@@ -187,26 +231,51 @@ namespace TaskManager
         {
             TaskCreationView tcv = new TaskCreationView(project, state);
             tcv.ShowDialog();
+            DBManager.SaveChanges();
         }
         private void AddTask(BaseTask.TaskState state, EpicTask epicTask)
         {
-
+            TaskCreationView tcv = new TaskCreationView(epicTask, state);
+            tcv.ShowDialog();
+            DBManager.SaveChanges();
         }
+        /// <summary>
+        /// Просто не смотрите на эти ифы.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addTaskButtonClick(object sender, System.EventArgs e)
         {
-            switch((sender as Control).Name)
+            if(_project != null)
             {
-                case "addOpenTaskTile":
-                    AddTask(BaseTask.TaskState.Open, _project);
-                    break;
-                case "addProgressTaskTile":
-                    AddTask(BaseTask.TaskState.InProgress, _project);
-                    break;
-                case "addClosedTaskTile":
-                    AddTask(BaseTask.TaskState.Closed, _project);
-                    break;
+                switch ((sender as Control).Name)
+                {
+                    case "addOpenTaskTile":
+                        AddTask(BaseTask.TaskState.Open, _project);
+                        break;
+                    case "addProgressTaskTile":
+                        AddTask(BaseTask.TaskState.InProgress, _project);
+                        break;
+                    case "addClosedTaskTile":
+                        AddTask(BaseTask.TaskState.Closed, _project);
+                        break;
+                }
             }
-            //MessageBox.Show(string.Join(" ", _project.GetTasks().Select(x => (x as BaseTask).Name + (x as BaseTask).ID.ToString())));
+            else
+            {
+                switch ((sender as Control).Name)
+                {
+                    case "addOpenTaskTile":
+                        AddTask(BaseTask.TaskState.Open, _epicTask);
+                        break;
+                    case "addProgressTaskTile":
+                        AddTask(BaseTask.TaskState.InProgress, _epicTask);
+                        break;
+                    case "addClosedTaskTile":
+                        AddTask(BaseTask.TaskState.Closed, _epicTask);
+                        break;
+                }
+            }
             DBManager.SaveChanges();
             ReloadTasks();
             RecalculateAll();

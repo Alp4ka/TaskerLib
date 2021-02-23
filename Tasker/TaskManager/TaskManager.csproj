@@ -95,6 +95,12 @@
     <Compile Include="TaskCreationView.Designer.cs">
       <DependentUpon>TaskCreationView.cs</DependentUpon>
     </Compile>
+    <Compile Include="TaskView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskView.Designer.cs">
+      <DependentUpon>TaskView.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserPage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +128,9 @@
     </Compile>
     <EmbeddedResource Include="TaskCreationView.resx">
       <DependentUpon>TaskCreationView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskView.resx">
+      <DependentUpon>TaskView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserPage.resx">
       <DependentUpon>UserPage.cs</DependentUpon>

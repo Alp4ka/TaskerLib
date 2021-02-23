@@ -34,3 +34,4 @@ C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.ProjectView.ko-KP.resources
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\ko-KP\TaskManager.resources.dll
 C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.TaskCreationView.resources
+C:\Users\kisam\OneDrive\Рабочий стол\TaskerLib\Tasker\TaskManager\obj\Debug\TaskManager.TaskView.resources

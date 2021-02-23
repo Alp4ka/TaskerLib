@@ -151,7 +151,7 @@ namespace TaskManager
                 else
                 {
                     Users.Remove(user);
-                    DBManager.SaveChanges();
+                    DBManager.ReloadDB();
                     InitializeUsersView();
                 }
             }
@@ -174,7 +174,7 @@ namespace TaskManager
                 else
                 {
                     Projects.Remove(project);
-                    DBManager.SaveChanges();
+                    DBManager.ReloadDB();
                     InitializeProjectsView();
                 }
             }

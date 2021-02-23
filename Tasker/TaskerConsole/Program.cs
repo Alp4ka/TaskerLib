@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Tasker;
 using ConsoleEngine;
-using System.Data.SQLite;
-using System.Data.Common;
-using System.IO;
 namespace TaskerConsole
 {
     class Program
