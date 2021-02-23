@@ -19,14 +19,14 @@ namespace TaskManager
         {
             InitializeComponent();
         }
-        public ProjectView(Project project):this()
+        public ProjectView(Project project) : this()
         {
             _project = project;
             Text = project.Name;
             _originalColor = Color.FromArgb(22, 22, 22);
             _pickColor = Color.FromArgb(_originalColor.R + 10,
                                    _originalColor.G + 10,
-                                   _originalColor.B+10);
+                                   _originalColor.B + 10);
             ReloadTasks();
             RecalculateAll();
         }
@@ -88,7 +88,7 @@ namespace TaskManager
         private void ShowTaskView(object sender, System.EventArgs e)
         {
             object parent;
-            if(_epicTask == null)
+            if (_epicTask == null)
             {
                 parent = _project;
             }
@@ -112,11 +112,11 @@ namespace TaskManager
             {
                 return Color.Blue;
             }
-            else if(task is StoryTask)
+            else if (task is StoryTask)
             {
                 return Color.Orange;
             }
-            else if(task is EpicTask)
+            else if (task is EpicTask)
             {
                 return Color.Purple;
             }
@@ -142,11 +142,11 @@ namespace TaskManager
         }
         private void RecalculateAll()
         {
-            if(_project != null)
+            if (_project != null)
             {
                 progressBar.Value = (int)_project.Percentage;
             }
-            
+
             foreach (var panel in Controls.OfType<MetroPanel>().ToArray())
             {
                 RecalculateChildren(panel);
@@ -246,7 +246,7 @@ namespace TaskManager
         /// <param name="e"></param>
         private void addTaskButtonClick(object sender, System.EventArgs e)
         {
-            if(_project != null)
+            if (_project != null)
             {
                 switch ((sender as Control).Name)
                 {

@@ -28,16 +28,16 @@ namespace TaskManager
                 Style = MetroFramework.MetroColorStyle.Purple;
                 showTasksBtn.Visible = true;
             }
-            else if(task is Task)
+            else if (task is Task)
             {
                 Style = MetroFramework.MetroColorStyle.Blue;
 
             }
-            else if(task is Bug)
+            else if (task is Bug)
             {
                 Style = MetroFramework.MetroColorStyle.Red;
             }
-            else if(task is StoryTask)
+            else if (task is StoryTask)
             {
                 Style = MetroFramework.MetroColorStyle.Orange;
             }
@@ -169,13 +169,13 @@ namespace TaskManager
 
         private void removeFromBtn_Click(object sender, EventArgs e)
         {
-            if(_parent is Project)
+            if (_parent is Project)
             {
                 (_parent as Project).RemoveTask(_task);
                 DBManager.ReloadDB();
                 Close();
             }
-            else if(_parent is EpicTask)
+            else if (_parent is EpicTask)
             {
                 (_parent as EpicTask).RemoveTask(_task);
                 DBManager.ReloadDB();
@@ -185,7 +185,7 @@ namespace TaskManager
 
         private void showTasksBtn_Click(object sender, EventArgs e)
         {
-            if(_task is EpicTask)
+            if (_task is EpicTask)
             {
                 var pv = new ProjectView(_task as EpicTask);
                 pv.ShowDialog();
