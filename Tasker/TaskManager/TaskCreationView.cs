@@ -24,7 +24,7 @@ namespace TaskManager
             _mode = Mode.Project;
             _state = state;
             _project = project;
-            _comboView = new string[] { "Task", "StoryTask", "EpicTask", "Bug"};
+            _comboView = new string[] { "Task", "StoryTask", "EpicTask", "Bug" };
             typeBox.Items.AddRange(_comboView);
         }
         public TaskCreationView(EpicTask epic, BaseTask.TaskState state) : this()
@@ -32,7 +32,7 @@ namespace TaskManager
             _mode = Mode.EpicTask;
             _state = state;
             _epicTask = epic;
-            _comboView = new string[] {"Task", "StoryTask"};
+            _comboView = new string[] { "Task", "StoryTask" };
             typeBox.Items.AddRange(_comboView);
         }
 
@@ -66,7 +66,7 @@ namespace TaskManager
             {
                 case Mode.EpicTask:
                     MainForm.Tasks.Add(task);
-                   _epicTask.AddTask(task);
+                    _epicTask.AddTask(task);
                     break;
                 case Mode.Project:
                     MainForm.Tasks.Add(task);

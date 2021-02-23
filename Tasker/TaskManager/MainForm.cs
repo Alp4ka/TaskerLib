@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework.Controls;
 using Tasker;
@@ -15,7 +11,9 @@ namespace TaskManager
 {
     public partial class MainForm : MetroFramework.Forms.MetroForm
     {
+        // Users.
         public static List<User> Users = DBManager._users;
+        // Projects.
         public static List<Project> Projects = DBManager._projects;
         public static List<IAssignable> Tasks = DBManager._tasks;
         private static int _maxProjects = 3;
@@ -57,7 +55,7 @@ namespace TaskManager
                 MetroTile button = new MetroTile();
                 button.TextAlign = ContentAlignment.MiddleLeft;
                 button.Name = project.ID.ToString();
-                button.Text = $"{project.ID}: {project.Name}";
+                button.Text = $"{project.ID}: {project.Name} {project.Description}";
                 button.Width = usersPanel.Width;
                 button.Height = 50;
                 button.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -241,7 +239,7 @@ namespace TaskManager
 
         private void newProjectButton_Click(object sender, EventArgs e)
         {
-            if(Projects.Count >= _maxProjects)
+            if (Projects.Count >= _maxProjects)
             {
                 warningProj.Text = $"Too much projects ({Projects.Count}/{_maxProjects})!";
                 return;
